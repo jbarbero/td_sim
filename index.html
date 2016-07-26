@@ -2393,13 +2393,13 @@
       }
       sim.html += "</thead><tr>";
 
-      console.log("teams", teams.length, "playin", playin);
+      //console.log("teams", teams.length, "playin", playin);
       var playing = [];
       var new_playing = [];
       for(var i=0; i<teams.length - 2*playin; i++) {
         new_playing.push(teams[i]);
       }
-      console.log("BYEs", new_playing);
+      //console.log("BYEs", new_playing);
 
       if(playin != 0) {
         sim.html += "<td style=\"vertical-align: top\">";
@@ -2427,7 +2427,7 @@
         sim.html += "</td>";
       }
       playing = new_playing;
-      console.log("after play-in round", playing);
+      //console.log("after play-in round", playing);
 
       for(var i=levels; i>0; i--) {
         new_playing = [];
@@ -2556,7 +2556,7 @@
         sim.name += " and Tiebreakers";
       }
 
-      console.log(sim.name);
+      //console.log(sim.name);
 
       num_rounds = Math.ceil(Math.log2(teams.length));
       num_rounds -= hybrid;

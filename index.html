@@ -2649,7 +2649,6 @@
 
     function simRoundRobin(sim, teams, num_pitches, playoff_teams) {
       sim.name = "Round Robin";
-      sim.games = teams.length * (teams.length - 1) / 2;
 
       if(playoff_teams == 0) {
         sim.name += " w/ no playoff";

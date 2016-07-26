@@ -1,0 +1,2840 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Tournament Format Simulator</title>
+    <!-- <link rel="stylesheet" type="text/css" href="autumn_daze.css" media="all"> -->
+    <link rel="stylesheet" type="text/css" href="coffee-with-milk.css" media="all">
+    <!-- <script type="text/javascript" src="sorttable.js"></script> -->
+    <style>
+      div {
+        border: 1px dotted black;
+        margin: 20px;
+      }
+      h1, h2, h3, h4 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+    </style>
+    <script type="text/javascript">
+      var teams = [
+        {"rank":   1,
+         "abbr": "QCB",
+         "name": "Quidditch Club Boston",
+         "gplayed": 30,
+         "gwon": 29,
+         "glost": 1,
+         "gpct": 96.67,
+         "swim": 73.72,
+         "sos": 0.620,
+         "perf": 101.979,
+         "penalty": 1.000,
+         "score": 101.979,
+        },
+        {"rank":   2,
+         "abbr": "LSQC",
+         "name": "Lone Star Quidditch Club",
+         "gplayed": 34,
+         "gwon": 29,
+         "glost": 5,
+         "gpct": 85.29,
+         "swim": 69.17,
+         "sos": 0.590,
+         "perf": 88.23,
+         "penalty": 1.000,
+         "score": 88.23,
+        },
+        {"rank":   3,
+         "abbr": "RU",
+         "name": "Rochester United",
+         "gplayed": 40,
+         "gwon": 36,
+         "glost": 4,
+         "gpct": 90,
+         "swim": 69.02,
+         "sos": 0.560,
+         "perf": 86.877,
+         "penalty": 1.000,
+         "score": 86.877,
+        },
+        {"rank":   4,
+         "abbr": "MQ",
+         "name": "Michigan Quidditch Team",
+         "gplayed": 34,
+         "gwon": 30,
+         "glost": 4,
+         "gpct": 88.24,
+         "swim": 63.17,
+         "sos": 0.540,
+         "perf": 79.253,
+         "penalty": 1.000,
+         "score": 79.253,
+        },
+        {"rank":   5,
+         "abbr": "LAG",
+         "name": "Los Angeles Gambits",
+         "gplayed": 32,
+         "gwon": 27,
+         "glost": 5,
+         "gpct": 84.38,
+         "swim": 56.46,
+         "sos": 0.560,
+         "perf": 77.997,
+         "penalty": 1.000,
+         "score": 77.997,
+        },
+        {"rank":   6,
+         "abbr": "BSA",
+         "name": "Boise State Abraxans",
+         "gplayed": 26,
+         "gwon": 23,
+         "glost": 3,
+         "gpct": 88.46,
+         "swim": 55.58,
+         "sos": 0.550,
+         "perf": 77.36,
+         "penalty": 1.000,
+         "score": 77.36,
+        },
+        {"rank":   7,
+         "abbr": "LOST",
+         "name": "The Lost Boys",
+         "gplayed": 33,
+         "gwon": 28,
+         "glost": 5,
+         "gpct": 84.85,
+         "swim": 51.29,
+         "sos": 0.570,
+         "perf": 76.39,
+         "penalty": 1.000,
+         "score": 76.39,
+        },
+        {"rank":   8,
+         "abbr": "BGSU",
+         "name": "Bowling Green State University",
+         "gplayed": 38,
+         "gwon": 33,
+         "glost": 5,
+         "gpct": 86.84,
+         "swim": 55.4,
+         "sos": 0.540,
+         "perf": 75.39,
+         "penalty": 1.000,
+         "score": 75.39,
+        },
+        {"rank":   9,
+         "abbr": "TXC",
+         "name": "Texas Cavalry",
+         "gplayed": 32,
+         "gwon": 25,
+         "glost": 7,
+         "gpct": 78.13,
+         "swim": 46.8,
+         "sos": 0.570,
+         "perf": 71.575,
+         "penalty": 1.000,
+         "score": 71.575,
+        },
+        {"rank":  10,
+         "abbr": "UNCCH",
+         "name": "The University of North Carolina at Chapel Hill Quidditch",
+         "gplayed": 41,
+         "gwon": 35,
+         "glost": 6,
+         "gpct": 85.37,
+         "swim": 53.32,
+         "sos": 0.510,
+         "perf": 69.847,
+         "penalty": 1.000,
+         "score": 69.847,
+        },
+        {"rank":  11,
+         "abbr": "TxQ",
+         "name": "Texas Quidditch",
+         "gplayed": 32,
+         "gwon": 26,
+         "glost": 6,
+         "gpct": 81.25,
+         "swim": 51.74,
+         "sos": 0.530,
+         "perf": 69.615,
+         "penalty": 1.000,
+         "score": 69.615,
+        },
+        {"rank":  12,
+         "abbr": "BSU",
+         "name": "Ball State Cardinals",
+         "gplayed": 39,
+         "gwon": 31,
+         "glost": 8,
+         "gpct": 79.49,
+         "swim": 40.23,
+         "sos": 0.580,
+         "perf": 69.021,
+         "penalty": 1.000,
+         "score": 69.021,
+        },
+        {"rank":  13,
+         "abbr": "UMD",
+         "name": "Maryland Quidditch",
+         "gplayed": 32,
+         "gwon": 25,
+         "glost": 7,
+         "gpct": 78.13,
+         "swim": 40.06,
+         "sos": 0.570,
+         "perf": 67.38,
+         "penalty": 1.000,
+         "score": 67.38,
+        },
+        {"rank":  14,
+         "abbr": "TXST",
+         "name": "Texas State University - San Marcos",
+         "gplayed": 33,
+         "gwon": 27,
+         "glost": 6,
+         "gpct": 81.82,
+         "swim": 47.93,
+         "sos": 0.510,
+         "perf": 65.732,
+         "penalty": 1.000,
+         "score": 65.732,
+        },
+        {"rank":  15,
+         "abbr": "RPI",
+         "name": "RPI Remembralls",
+         "gplayed": 25,
+         "gwon": 19,
+         "glost": 6,
+         "gpct": 76,
+         "swim": 43.6,
+         "sos": 0.540,
+         "perf": 65.644,
+         "penalty": 1.000,
+         "score": 65.644,
+        },
+        {"rank":  16,
+         "abbr": "FF",
+         "name": "Florida's Finest",
+         "gplayed": 23,
+         "gwon": 19,
+         "glost": 4,
+         "gpct": 82.61,
+         "swim": 53.36,
+         "sos": 0.470,
+         "perf": 63.278,
+         "penalty": 1.000,
+         "score": 63.278,
+        },
+        {"rank":  17,
+         "abbr": "DCQC",
+         "name": "District of Columbia Quidditch Club",
+         "gplayed": 29,
+         "gwon": 21,
+         "glost": 8,
+         "gpct": 72.41,
+         "swim": 33.85,
+         "sos": 0.570,
+         "perf": 62.09,
+         "penalty": 1.000,
+         "score": 62.09,
+        },
+        {"rank":  18,
+         "abbr": "TAMU",
+         "name": "Texas A&M Quidditch",
+         "gplayed": 31,
+         "gwon": 23,
+         "glost": 8,
+         "gpct": 74.19,
+         "swim": 40.68,
+         "sos": 0.530,
+         "perf": 61.955,
+         "penalty": 1.000,
+         "score": 61.955,
+        },
+        {"rank":  19,
+         "abbr": "MU",
+         "name": "Marquette University Quidditch",
+         "gplayed": 15,
+         "gwon": 12,
+         "glost": 3,
+         "gpct": 80,
+         "swim": 47.73,
+         "sos": 0.480,
+         "perf": 61.13,
+         "penalty": 1.000,
+         "score": 61.13,
+        },
+        {"rank":  20,
+         "abbr": "RCR",
+         "name": "Rain City Raptors",
+         "gplayed": 19,
+         "gwon": 14,
+         "glost": 5,
+         "gpct": 73.68,
+         "swim": 45.95,
+         "sos": 0.500,
+         "perf": 60.437,
+         "penalty": 1.000,
+         "score": 60.437,
+        },
+        {"rank":  21,
+         "abbr": "FFA",
+         "name": "The Fighting Farmers of America",
+         "gplayed": 35,
+         "gwon": 26,
+         "glost": 9,
+         "gpct": 74.29,
+         "swim": 39.71,
+         "sos": 0.510,
+         "perf": 59.102,
+         "penalty": 1.000,
+         "score": 59.102,
+        },
+        {"rank":  22,
+         "abbr": "OkSU",
+         "name": "Oklahoma State University",
+         "gplayed": 46,
+         "gwon": 35,
+         "glost": 11,
+         "gpct": 76.09,
+         "swim": 40.89,
+         "sos": 0.490,
+         "perf": 58.284,
+         "penalty": 1.000,
+         "score": 58.284,
+        },
+        {"rank":  23,
+         "abbr": "NYQC",
+         "name": "New York Quidditch Club",
+         "gplayed": 25,
+         "gwon": 18,
+         "glost": 7,
+         "gpct": 72,
+         "swim": 28.33,
+         "sos": 0.560,
+         "perf": 58.135,
+         "penalty": 1.000,
+         "score": 58.135,
+        },
+        {"rank":  24,
+         "abbr": "KU",
+         "name": "Kansas Quidditch",
+         "gplayed": 24,
+         "gwon": 18,
+         "glost": 6,
+         "gpct": 75,
+         "swim": 47.49,
+         "sos": 0.470,
+         "perf": 57.819,
+         "penalty": 1.000,
+         "score": 57.819,
+        },
+        {"rank":  25,
+         "abbr": "ASU",
+         "name": "Arizona State University",
+         "gplayed": 29,
+         "gwon": 22,
+         "glost": 7,
+         "gpct": 75.86,
+         "swim": 30.27,
+         "sos": 0.530,
+         "perf": 57.691,
+         "penalty": 1.000,
+         "score": 57.691,
+        },
+        {"rank":  26,
+         "abbr": "UMiami",
+         "name": "University of Miami",
+         "gplayed": 33,
+         "gwon": 23,
+         "glost": 10,
+         "gpct": 69.7,
+         "swim": 35.96,
+         "sos": 0.500,
+         "perf": 54.96,
+         "penalty": 1.000,
+         "score": 54.96,
+        },
+        {"rank":  27,
+         "abbr": "BU",
+         "name": "Boston University Quidditch",
+         "gplayed": 26,
+         "gwon": 19,
+         "glost": 7,
+         "gpct": 73.08,
+         "swim": 29.99,
+         "sos": 0.510,
+         "perf": 54.671,
+         "penalty": 1.000,
+         "score": 54.671,
+        },
+        {"rank":  28,
+         "abbr": "MIZ",
+         "name": "Mizzou Quidditch",
+         "gplayed": 27,
+         "gwon": 18,
+         "glost": 9,
+         "gpct": 66.67,
+         "swim": 29.77,
+         "sos": 0.510,
+         "perf": 52.691,
+         "penalty": 1.000,
+         "score": 52.691,
+        },
+        {"rank":  29,
+         "abbr": "WAR",
+         "name": "The Warriors",
+         "gplayed": 24,
+         "gwon": 15,
+         "glost": 9,
+         "gpct": 62.5,
+         "swim": 13.81,
+         "sos": 0.600,
+         "perf": 52.188,
+         "penalty": 1.000,
+         "score": 52.188,
+        },
+        {"rank":  30,
+         "abbr": "RUQ",
+         "name": "Rutgers University Quidditch",
+         "gplayed": 28,
+         "gwon": 19,
+         "glost": 9,
+         "gpct": 67.86,
+         "swim": 18.47,
+         "sos": 0.540,
+         "perf": 50.844,
+         "penalty": 1.000,
+         "score": 50.844,
+        },
+        {"rank":  31,
+         "abbr": "AAQ",
+         "name": "Appalachian Apparators Quidditch",
+         "gplayed": 26,
+         "gwon": 16,
+         "glost": 10,
+         "gpct": 61.54,
+         "swim": 18.59,
+         "sos": 0.540,
+         "perf": 48.846,
+         "penalty": 1.000,
+         "score": 48.846,
+        },
+        {"rank":  32,
+         "abbr": "TUQ",
+         "name": "Tufts University Tufflepuffs",
+         "gplayed": 25,
+         "gwon": 15,
+         "glost": 10,
+         "gpct": 60,
+         "swim": 13.82,
+         "sos": 0.570,
+         "perf": 48.793,
+         "penalty": 1.000,
+         "score": 48.793,
+        },
+        {"rank":  33,
+         "abbr": "UCLA",
+         "name": "University of California Los Angeles",
+         "gplayed": 25,
+         "gwon": 17,
+         "glost": 8,
+         "gpct": 68,
+         "swim": 31.05,
+         "sos": 0.460,
+         "perf": 48.501,
+         "penalty": 1.000,
+         "score": 48.501,
+        },
+        {"rank":  34,
+         "abbr": "MNQ",
+         "name": "Minnesota Quidditch",
+         "gplayed": 22,
+         "gwon": 14,
+         "glost": 8,
+         "gpct": 63.64,
+         "swim": 15.69,
+         "sos": 0.530,
+         "perf": 47.716,
+         "penalty": 1.000,
+         "score": 47.716,
+        },
+        {"rank":  35,
+         "abbr": "USQC",
+         "name": "Utah State Quidditch Club",
+         "gplayed": 32,
+         "gwon": 18,
+         "glost": 14,
+         "gpct": 56.25,
+         "swim": 17.61,
+         "sos": 0.550,
+         "perf": 47.305,
+         "penalty": 1.000,
+         "score": 47.305,
+        },
+        {"rank":  36,
+         "abbr": "NAU",
+         "name": "Northern Arizona University Narwhals",
+         "gplayed": 33,
+         "gwon": 21,
+         "glost": 12,
+         "gpct": 63.64,
+         "swim": 25.25,
+         "sos": 0.490,
+         "perf": 47.28,
+         "penalty": 1.000,
+         "score": 47.28,
+        },
+        {"rank":  37,
+         "abbr": "PSU",
+         "name": "Penn State University Nittany Lions",
+         "gplayed": 26,
+         "gwon": 16,
+         "glost": 10,
+         "gpct": 61.54,
+         "swim": 10.64,
+         "sos": 0.550,
+         "perf": 46.642,
+         "penalty": 1.000,
+         "score": 46.642,
+        },
+        {"rank":  38,
+         "abbr": "Baylor",
+         "name": "Baylor University",
+         "gplayed": 18,
+         "gwon": 12,
+         "glost": 6,
+         "gpct": 66.67,
+         "swim": 25.05,
+         "sos": 0.470,
+         "perf": 46.445,
+         "penalty": 1.000,
+         "score": 46.445,
+        },
+        {"rank":  39,
+         "abbr": "SHQ",
+         "name": "SHSU Quidditch",
+         "gplayed": 31,
+         "gwon": 18,
+         "glost": 13,
+         "gpct": 58.06,
+         "swim": 17.49,
+         "sos": 0.530,
+         "perf": 46.038,
+         "penalty": 1.000,
+         "score": 46.038,
+        },
+        {"rank":  40,
+         "abbr": "SVS",
+         "name": "Silicon Valley Skrewts",
+         "gplayed": 23,
+         "gwon": 14,
+         "glost": 9,
+         "gpct": 60.87,
+         "swim": 20.45,
+         "sos": 0.500,
+         "perf": 45.772,
+         "penalty": 1.000,
+         "score": 45.772,
+        },
+        {"rank":  41,
+         "abbr": "N10CT",
+         "name": "inTENNsity",
+         "gplayed": 19,
+         "gwon": 12,
+         "glost": 7,
+         "gpct": 63.16,
+         "swim": 25.24,
+         "sos": 0.460,
+         "perf": 44.124,
+         "penalty": 1.000,
+         "score": 44.124,
+        },
+        {"rank":  42,
+         "abbr": "PHB",
+         "name": "Philadelphia Honey Badgers",
+         "gplayed": 29,
+         "gwon": 18,
+         "glost": 11,
+         "gpct": 62.07,
+         "swim": 17.51,
+         "sos": 0.490,
+         "perf": 43.9,
+         "penalty": 1.000,
+         "score": 43.9,
+        },
+        {"rank":  43,
+         "abbr": "LEM",
+         "name": "Lake Effect Maelstrom",
+         "gplayed": 21,
+         "gwon": 11,
+         "glost": 10,
+         "gpct": 52.38,
+         "swim": 8.24,
+         "sos": 0.550,
+         "perf": 42.601,
+         "penalty": 1.000,
+         "score": 42.601,
+        },
+        {"rank":  44,
+         "abbr": "HUQ",
+         "name": "Hofstra University Flying Dutchmen",
+         "gplayed": 24,
+         "gwon": 14,
+         "glost": 10,
+         "gpct": 58.33,
+         "swim": 10.45,
+         "sos": 0.520,
+         "perf": 42.497,
+         "penalty": 1.000,
+         "score": 42.497,
+        },
+        {"rank":  45,
+         "abbr": "UBC",
+         "name": "University of British Columbia",
+         "gplayed": 21,
+         "gwon": 11,
+         "glost": 10,
+         "gpct": 52.38,
+         "swim": 7.97,
+         "sos": 0.540,
+         "perf": 42.005,
+         "penalty": 1.000,
+         "score": 42.005,
+        },
+        {"rank":  46,
+         "abbr": "GCG",
+         "name": "Gulf Coast Gumbeaux",
+         "gplayed": 27,
+         "gwon": 14,
+         "glost": 13,
+         "gpct": 51.85,
+         "swim": 3.97,
+         "sos": 0.570,
+         "perf": 41.996,
+         "penalty": 1.000,
+         "score": 41.996,
+        },
+        {"rank":  47,
+         "abbr": "UVa",
+         "name": "Virginia Quidditch Club",
+         "gplayed": 44,
+         "gwon": 23,
+         "glost": 21,
+         "gpct": 52.27,
+         "swim": 6.24,
+         "sos": 0.550,
+         "perf": 41.645,
+         "penalty": 1.000,
+         "score": 41.645,
+        },
+        {"rank":  48,
+         "abbr": "Cal",
+         "name": "Cal Quidditch",
+         "gplayed": 22,
+         "gwon": 14,
+         "glost": 8,
+         "gpct": 63.64,
+         "swim": 9.19,
+         "sos": 0.490,
+         "perf": 41.191,
+         "penalty": 1.000,
+         "score": 41.191,
+        },
+        {"rank":  49,
+         "abbr": "TTU",
+         "name": "Tennessee Tech Quidditch",
+         "gplayed": 18,
+         "gwon": 10,
+         "glost": 8,
+         "gpct": 55.56,
+         "swim": 18.49,
+         "sos": 0.470,
+         "perf": 40.94,
+         "penalty": 1.000,
+         "score": 40.94,
+        },
+        {"rank":  50,
+         "abbr": "SS",
+         "name": "The Southern Storm",
+         "gplayed": 20,
+         "gwon": 12,
+         "glost": 8,
+         "gpct": 60,
+         "swim": 10.83,
+         "sos": 0.490,
+         "perf": 40.816,
+         "penalty": 1.000,
+         "score": 40.816,
+        },
+        {"rank":  51,
+         "abbr": "CE",
+         "name": "Crimson Elite",
+         "gplayed": 40,
+         "gwon": 21,
+         "glost": 19,
+         "gpct": 52.5,
+         "swim": -5.72,
+         "sos": 0.600,
+         "perf": 40.311,
+         "penalty": 1.000,
+         "score": 40.311,
+        },
+        {"rank":  52,
+         "abbr": "MUOH",
+         "name": "Miami University",
+         "gplayed": 26,
+         "gwon": 14,
+         "glost": 12,
+         "gpct": 53.85,
+         "swim": 8.85,
+         "sos": 0.510,
+         "perf": 40.018,
+         "penalty": 1.000,
+         "score": 40.018,
+        },
+        {"rank":  53,
+         "abbr": "TTU",
+         "name": "Texas Tech Quidditch",
+         "gplayed": 28,
+         "gwon": 13,
+         "glost": 15,
+         "gpct": 46.43,
+         "swim": 3.6,
+         "sos": 0.560,
+         "perf": 39.674,
+         "penalty": 1.000,
+         "score": 39.674,
+        },
+        {"rank":  54,
+         "abbr": "FGCU",
+         "name": "Florida Gulf Coast Quidditch",
+         "gplayed": 19,
+         "gwon": 11,
+         "glost": 8,
+         "gpct": 57.89,
+         "swim": 22.29,
+         "sos": 0.430,
+         "perf": 39.67,
+         "penalty": 1.000,
+         "score": 39.67,
+        },
+        {"rank":  55,
+         "abbr": "SBB",
+         "name": "Santa Barbara Blacktips",
+         "gplayed": 22,
+         "gwon": 12,
+         "glost": 10,
+         "gpct": 54.55,
+         "swim": 8.26,
+         "sos": 0.500,
+         "perf": 39.286,
+         "penalty": 1.000,
+         "score": 39.286,
+        },
+        {"rank":  56,
+         "abbr": "SVV",
+         "name": "Silicon Valley Vipers",
+         "gplayed": 36,
+         "gwon": 22,
+         "glost": 14,
+         "gpct": 61.11,
+         "swim": 10.65,
+         "sos": 0.470,
+         "perf": 39.196,
+         "penalty": 1.000,
+         "score": 39.196,
+        },
+        {"rank":  57,
+         "abbr": "OSU",
+         "name": "Ohio State Quidditch",
+         "gplayed": 28,
+         "gwon": 13,
+         "glost": 15,
+         "gpct": 46.43,
+         "swim": 0.81,
+         "sos": 0.550,
+         "perf": 38.109,
+         "penalty": 1.000,
+         "score": 38.109,
+        },
+        {"rank":  58,
+         "abbr": "ISU",
+         "name": "Illinois State University Firebirds",
+         "gplayed": 32,
+         "gwon": 18,
+         "glost": 14,
+         "gpct": 56.25,
+         "swim": -1.9,
+         "sos": 0.520,
+         "perf": 36.925,
+         "penalty": 1.000,
+         "score": 36.925,
+        },
+        {"rank":  59,
+         "abbr": "CMQC",
+         "name": "Central Michigan Quidditch Club",
+         "gplayed": 28,
+         "gwon": 15,
+         "glost": 13,
+         "gpct": 53.57,
+         "swim": 1.78,
+         "sos": 0.500,
+         "perf": 36.515,
+         "penalty": 1.000,
+         "score": 36.515,
+        },
+        {"rank":  60,
+         "abbr": "URQ",
+         "name": "University of Richmond Quidditch",
+         "gplayed": 36,
+         "gwon": 17,
+         "glost": 19,
+         "gpct": 47.22,
+         "swim": -4.31,
+         "sos": 0.550,
+         "perf": 36.38,
+         "penalty": 1.000,
+         "score": 36.38,
+        },
+        {"rank":  61,
+         "abbr": "AAQ",
+         "name": "Boise State Thestrals",
+         "gplayed": 18,
+         "gwon": 10,
+         "glost": 8,
+         "gpct": 55.56,
+         "swim": 2.67,
+         "sos": 0.480,
+         "perf": 35.854,
+         "penalty": 1.000,
+         "score": 35.854,
+        },
+        {"rank":  62,
+         "abbr": "TUQ",
+         "name": "University of Arkansas Quidditch Club",
+         "gplayed": 30,
+         "gwon": 16,
+         "glost": 14,
+         "gpct": 53.33,
+         "swim": 2.49,
+         "sos": 0.480,
+         "perf": 35.574,
+         "penalty": 1.000,
+         "score": 35.574,
+        },
+        {"rank":  63,
+         "abbr": "UCLA",
+         "name": "James Madison University Quidditch",
+         "gplayed": 20,
+         "gwon": 11,
+         "glost": 9,
+         "gpct": 55,
+         "swim": 8.67,
+         "sos": 0.450,
+         "perf": 35.339,
+         "penalty": 1.000,
+         "score": 35.339,
+        },
+        {"rank":  64,
+         "abbr": "MNQ",
+         "name": "University of Texas at San Antonio Club Quidditch",
+         "gplayed": 25,
+         "gwon": 11,
+         "glost": 14,
+         "gpct": 44,
+         "swim": 3.5,
+         "sos": 0.500,
+         "perf": 35.036,
+         "penalty": 1.000,
+         "score": 35.036,
+        },
+        {"rank":  65,
+         "abbr": "USQC",
+         "name": "George Mason Club Quidditch",
+         "gplayed": 32,
+         "gwon": 15,
+         "glost": 17,
+         "gpct": 46.88,
+         "swim": -7.1,
+         "sos": 0.550,
+         "perf": 34.972,
+         "penalty": 1.000,
+         "score": 34.972,
+        },
+        {"rank":  66,
+         "abbr": "NAU",
+         "name": "Minnesota Nice Quidditch Club",
+         "gplayed": 17,
+         "gwon": 9,
+         "glost": 8,
+         "gpct": 52.94,
+         "swim": 3.69,
+         "sos": 0.470,
+         "perf": 34.742,
+         "penalty": 1.000,
+         "score": 34.742,
+        },
+        {"rank":  67,
+         "abbr": "PSU",
+         "name": "Lock Haven University Quidditch",
+         "gplayed": 26,
+         "gwon": 12,
+         "glost": 14,
+         "gpct": 46.15,
+         "swim": 2.17,
+         "sos": 0.500,
+         "perf": 34.65,
+         "penalty": 1.000,
+         "score": 34.65,
+        },
+        {"rank":  68,
+         "abbr": "Baylor",
+         "name": "Virginia Tech",
+         "gplayed": 22,
+         "gwon": 10,
+         "glost": 12,
+         "gpct": 45.45,
+         "swim": -2.41,
+         "sos": 0.470,
+         "perf": 31.3,
+         "penalty": 1.000,
+         "score": 31.3,
+        },
+        {"rank":  69,
+         "abbr": "SHQ",
+         "name": "South Bay Blazers",
+         "gplayed": 13,
+         "gwon": 6,
+         "glost": 7,
+         "gpct": 46.15,
+         "swim": 3.53,
+         "sos": 0.440,
+         "perf": 31.277,
+         "penalty": 1.000,
+         "score": 31.277,
+        },
+        {"rank":  70,
+         "abbr": "SVS",
+         "name": "California Dobbys",
+         "gplayed": 22,
+         "gwon": 10,
+         "glost": 12,
+         "gpct": 45.45,
+         "swim": -3.57,
+         "sos": 0.470,
+         "perf": 30.955,
+         "penalty": 1.000,
+         "score": 30.955,
+        },
+        {"rank":  71,
+         "abbr": "N10CT",
+         "name": "University of South Florida Quidditch",
+         "gplayed": 17,
+         "gwon": 9,
+         "glost": 8,
+         "gpct": 52.94,
+         "swim": -8.72,
+         "sos": 0.470,
+         "perf": 30.539,
+         "penalty": 1.000,
+         "score": 30.539,
+        },
+        {"rank":  72,
+         "abbr": "PHB",
+         "name": "University of Rochester Thestrals",
+         "gplayed": 25,
+         "gwon": 8,
+         "glost": 17,
+         "gpct": 32,
+         "swim": -5.3,
+         "sos": 0.500,
+         "perf": 28.922,
+         "penalty": 1.000,
+         "score": 28.922,
+        },
+        {"rank":  73,
+         "abbr": "LEM",
+         "name": "Tribe Quidditch",
+         "gplayed": 25,
+         "gwon": 9,
+         "glost": 16,
+         "gpct": 36,
+         "swim": -13.63,
+         "sos": 0.520,
+         "perf": 28.062,
+         "penalty": 1.000,
+         "score": 28.062,
+        },
+        {"rank":  74,
+         "abbr": "HUQ",
+         "name": "SUNY Geneseo",
+         "gplayed": 16,
+         "gwon": 8,
+         "glost": 8,
+         "gpct": 50,
+         "swim": -3.84,
+         "sos": 0.410,
+         "perf": 27.584,
+         "penalty": 1.000,
+         "score": 27.584,
+        },
+        {"rank":  75,
+         "abbr": "UBC",
+         "name": "Emerald City Admirals",
+         "gplayed": 6,
+         "gwon": 3,
+         "glost": 3,
+         "gpct": 50,
+         "swim": -12.1,
+         "sos": 0.450,
+         "perf": 27.176,
+         "penalty": 1.000,
+         "score": 27.176,
+        },
+        {"rank":  76,
+         "abbr": "GCG",
+         "name": "University of Florida Quidditch",
+         "gplayed": 17,
+         "gwon": 7,
+         "glost": 10,
+         "gpct": 41.18,
+         "swim": -5.75,
+         "sos": 0.440,
+         "perf": 27.051,
+         "penalty": 1.000,
+         "score": 27.051,
+        },
+        {"rank":  77,
+         "abbr": "UVa",
+         "name": "Ohio University Quidditch Club",
+         "gplayed": 24,
+         "gwon": 9,
+         "glost": 15,
+         "gpct": 37.5,
+         "swim": -22.28,
+         "sos": 0.540,
+         "perf": 26.359,
+         "penalty": 1.000,
+         "score": 26.359,
+        },
+        {"rank":  78,
+         "abbr": "Cal",
+         "name": "RCQC",
+         "gplayed": 22,
+         "gwon": 10,
+         "glost": 12,
+         "gpct": 45.45,
+         "swim": -18.72,
+         "sos": 0.480,
+         "perf": 26.155,
+         "penalty": 1.000,
+         "score": 26.155,
+        },
+        {"rank":  79,
+         "abbr": "TTU",
+         "name": "Syracuse University Quidditch Club",
+         "gplayed": 19,
+         "gwon": 8,
+         "glost": 11,
+         "gpct": 42.11,
+         "swim": -19.86,
+         "sos": 0.490,
+         "perf": 25.523,
+         "penalty": 1.000,
+         "score": 25.523,
+        },
+        {"rank":  80,
+         "abbr": "SS",
+         "name": "Provo Quidditch",
+         "gplayed": 23,
+         "gwon": 9,
+         "glost": 14,
+         "gpct": 39.13,
+         "swim": -21.18,
+         "sos": 0.500,
+         "perf": 25.39,
+         "penalty": 1.000,
+         "score": 25.39,
+        },
+        {"rank":  81,
+         "abbr": "CE",
+         "name": "RIT Dark Marks",
+         "gplayed": 19,
+         "gwon": 6,
+         "glost": 13,
+         "gpct": 31.58,
+         "swim": -30.22,
+         "sos": 0.600,
+         "perf": 25.031,
+         "penalty": 1.000,
+         "score": 25.031,
+        },
+        {"rank":  82,
+         "abbr": "MUOH",
+         "name": "Florida International University",
+         "gplayed": 21,
+         "gwon": 8,
+         "glost": 13,
+         "gpct": 38.1,
+         "swim": -10.9,
+         "sos": 0.440,
+         "perf": 24.978,
+         "penalty": 1.000,
+         "score": 24.978,
+        },
+        {"rank":  83,
+         "abbr": "TTU",
+         "name": "Purdue Intercollegiate Quidditch Club",
+         "gplayed": 7,
+         "gwon": 3,
+         "glost": 4,
+         "gpct": 42.86,
+         "swim": -0.82,
+         "sos": 0.370,
+         "perf": 24.682,
+         "penalty": 1.000,
+         "score": 24.682,
+        },
+        {"rank":  84,
+         "abbr": "FGCU",
+         "name": "Michigan State Quidditch",
+         "gplayed": 32,
+         "gwon": 10,
+         "glost": 22,
+         "gpct": 31.25,
+         "swim": -24.04,
+         "sos": 0.530,
+         "perf": 24.345,
+         "penalty": 1.000,
+         "score": 24.345,
+        },
+        {"rank":  85,
+         "abbr": "SBB",
+         "name": "Macaulay Honors College Marauders",
+         "gplayed": 23,
+         "gwon": 7,
+         "glost": 16,
+         "gpct": 30.43,
+         "swim": -13.9,
+         "sos": 0.460,
+         "perf": 24.088,
+         "penalty": 1.000,
+         "score": 24.088,
+        },
+        {"rank":  86,
+         "abbr": "SVV",
+         "name": "Stony Brook Quidditch",
+         "gplayed": 19,
+         "gwon": 8,
+         "glost": 11,
+         "gpct": 42.11,
+         "swim": -19.63,
+         "sos": 0.460,
+         "perf": 23.969,
+         "penalty": 1.000,
+         "score": 23.969,
+        },
+        {"rank":  87,
+         "abbr": "OSU",
+         "name": "Emerson College Quidditch",
+         "gplayed": 32,
+         "gwon": 12,
+         "glost": 20,
+         "gpct": 37.5,
+         "swim": -25.5,
+         "sos": 0.510,
+         "perf": 23.842,
+         "penalty": 1.000,
+         "score": 23.842,
+        },
+        {"rank":  88,
+         "abbr": "ISU",
+         "name": "TC FROST",
+         "gplayed": 20,
+         "gwon": 7,
+         "glost": 13,
+         "gpct": 35,
+         "swim": -19.41,
+         "sos": 0.470,
+         "perf": 23.714,
+         "penalty": 1.000,
+         "score": 23.714,
+        },
+        {"rank":  89,
+         "abbr": "CMQC",
+         "name": "Duke University Quidditch",
+         "gplayed": 15,
+         "gwon": 6,
+         "glost": 9,
+         "gpct": 40,
+         "swim": -26.82,
+         "sos": 0.510,
+         "perf": 23.595,
+         "penalty": 1.000,
+         "score": 23.595,
+        },
+        {"rank":  90,
+         "abbr": "URQ",
+         "name": "The Long Beach Funky Quaffles",
+         "gplayed": 24,
+         "gwon": 7,
+         "glost": 17,
+         "gpct": 29.17,
+         "swim": -18.14,
+         "sos": 0.480,
+         "perf": 23.262,
+         "penalty": 1.000,
+         "score": 23.262,
+        },
+        {"rank":  91,
+         "abbr": "MMUI",
+         "name": "Moscow Manticores at the University of Idaho",
+         "gplayed": 11,
+         "gwon": 4,
+         "glost": 7,
+         "gpct": 36.36,
+         "swim": -2.15,
+         "sos": 0.370,
+         "perf": 23.213,
+         "penalty": 1.000,
+         "score": 23.213,
+        },
+        {"rank":  92,
+         "abbr": "WoW",
+         "name": "Wizards of Westwood",
+         "gplayed": 19,
+         "gwon": 8,
+         "glost": 11,
+         "gpct": 42.11,
+         "swim": -25.12,
+         "sos": 0.480,
+         "perf": 23.119,
+         "penalty": 1.000,
+         "score": 23.119,
+        },
+        {"rank":  93,
+         "abbr": "CofC",
+         "name": "College of Charleston",
+         "gplayed": 15,
+         "gwon": 5,
+         "glost": 10,
+         "gpct": 33.33,
+         "swim": -25.35,
+         "sos": 0.500,
+         "perf": 22.852,
+         "penalty": 1.000,
+         "score": 22.852,
+        },
+        {"rank":  94,
+         "abbr": "AQ",
+         "name": "Austin Quidditch",
+         "gplayed": 22,
+         "gwon": 8,
+         "glost": 14,
+         "gpct": 36.36,
+         "swim": -24.74,
+         "sos": 0.490,
+         "perf": 22.791,
+         "penalty": 1.000,
+         "score": 22.791,
+        },
+        {"rank":  95,
+         "abbr": "UMA",
+         "name": "University of Massachusetts Amherst Crabs",
+         "gplayed": 5,
+         "gwon": 3,
+         "glost": 2,
+         "gpct": 60,
+         "swim": 25.7,
+         "sos": 0.460,
+         "perf": 43.368,
+         "penalty": 0.500,
+         "score": 21.684,
+        },
+        {"rank":  96,
+         "abbr": "SPhx",
+         "name": "The Silver Phoenix",
+         "gplayed": 23,
+         "gwon": 8,
+         "glost": 15,
+         "gpct": 34.78,
+         "swim": -24.81,
+         "sos": 0.470,
+         "perf": 21.562,
+         "penalty": 1.000,
+         "score": 21.562,
+        },
+        {"rank":  97,
+         "abbr": "LET",
+         "name": "Lake Effect Tempest",
+         "gplayed": 11,
+         "gwon": 4,
+         "glost": 7,
+         "gpct": 36.36,
+         "swim": -15.59,
+         "sos": 0.380,
+         "perf": 20.03,
+         "penalty": 1.000,
+         "score": 20.03,
+        },
+        {"rank":  98,
+         "abbr": "Pitt",
+         "name": "Q.C. Pittsburgh",
+         "gplayed": 16,
+         "gwon": 5,
+         "glost": 11,
+         "gpct": 31.25,
+         "swim": -27,
+         "sos": 0.450,
+         "perf": 19.717,
+         "penalty": 1.000,
+         "score": 19.717,
+        },
+        {"rank":  99,
+         "abbr": "USC",
+         "name": "University of Southern California",
+         "gplayed": 14,
+         "gwon": 4,
+         "glost": 10,
+         "gpct": 28.57,
+         "swim": -31.18,
+         "sos": 0.490,
+         "perf": 19.713,
+         "penalty": 1.000,
+         "score": 19.713,
+        },
+        {"rank": 100,
+         "abbr": "SC",
+         "name": "University of South Carolina",
+         "gplayed": 20,
+         "gwon": 5,
+         "glost": 15,
+         "gpct": 25,
+         "swim": -33.36,
+         "sos": 0.500,
+         "perf": 18.934,
+         "penalty": 1.000,
+         "score": 18.934,
+        },
+        {"rank": 101,
+         "abbr": "Harvard",
+         "name": "Harvard Horntails",
+         "gplayed": 14,
+         "gwon": 4,
+         "glost": 10,
+         "gpct": 28.57,
+         "swim": -28.69,
+         "sos": 0.440,
+         "perf": 18.451,
+         "penalty": 1.000,
+         "score": 18.451,
+        },
+        {"rank": 102,
+         "abbr": "TU",
+         "name": "Tulane University",
+         "gplayed": 23,
+         "gwon": 7,
+         "glost": 16,
+         "gpct": 30.43,
+         "swim": -39,
+         "sos": 0.510,
+         "perf": 18.279,
+         "penalty": 1.000,
+         "score": 18.279,
+        },
+        {"rank": 103,
+         "abbr": "LUNO",
+         "name": "Loyola University New Orleans",
+         "gplayed": 10,
+         "gwon": 2,
+         "glost": 8,
+         "gpct": 20,
+         "swim": -36.5,
+         "sos": 0.530,
+         "perf": 18.029,
+         "penalty": 1.000,
+         "score": 18.029,
+        },
+        {"rank": 104,
+         "abbr": "UNC",
+         "name": "University of Northern Colorado",
+         "gplayed": 21,
+         "gwon": 5,
+         "glost": 16,
+         "gpct": 23.81,
+         "swim": -36.75,
+         "sos": 0.510,
+         "perf": 17.905,
+         "penalty": 1.000,
+         "score": 17.905,
+        },
+        {"rank": 105,
+         "abbr": "CW",
+         "name": "Crimson Warhawks",
+         "gplayed": 14,
+         "gwon": 4,
+         "glost": 10,
+         "gpct": 28.57,
+         "swim": -33.13,
+         "sos": 0.460,
+         "perf": 17.793,
+         "penalty": 1.000,
+         "score": 17.793,
+        },
+        {"rank": 106,
+         "abbr": "Stanford",
+         "name": "Stanford Quidditch",
+         "gplayed": 18,
+         "gwon": 5,
+         "glost": 13,
+         "gpct": 27.78,
+         "swim": -39.89,
+         "sos": 0.480,
+         "perf": 16.465,
+         "penalty": 1.000,
+         "score": 16.465,
+        },
+        {"rank": 107,
+         "abbr": "FW",
+         "name": "Falcon Warriors Quidditch Club",
+         "gplayed": 16,
+         "gwon": 5,
+         "glost": 11,
+         "gpct": 31.25,
+         "swim": -40.46,
+         "sos": 0.460,
+         "perf": 16.061,
+         "penalty": 1.000,
+         "score": 16.061,
+        },
+        {"rank": 108,
+         "abbr": "SHIV",
+         "name": "The Rogues",
+         "gplayed": 13,
+         "gwon": 4,
+         "glost": 9,
+         "gpct": 30.77,
+         "swim": -33.2,
+         "sos": 0.390,
+         "perf": 15.407,
+         "penalty": 1.000,
+         "score": 15.407,
+        },
+        {"rank": 109,
+         "abbr": "WWUW",
+         "name": "Western Washington Wyverns",
+         "gplayed": 11,
+         "gwon": 3,
+         "glost": 8,
+         "gpct": 27.27,
+         "swim": -36.92,
+         "sos": 0.420,
+         "perf": 15.044,
+         "penalty": 1.000,
+         "score": 15.044,
+        },
+        {"rank": 110,
+         "abbr": "SFQC",
+         "name": "Skyfighters Quidditch Club",
+         "gplayed": 17,
+         "gwon": 4,
+         "glost": 13,
+         "gpct": 23.53,
+         "swim": -37.55,
+         "sos": 0.430,
+         "perf": 15.009,
+         "penalty": 1.000,
+         "score": 15.009,
+        },
+        {"rank": 111,
+         "abbr": "USI",
+         "name": "University of Southern Indiana Quidditch",
+         "gplayed": 14,
+         "gwon": 4,
+         "glost": 10,
+         "gpct": 28.57,
+         "swim": -36.52,
+         "sos": 0.400,
+         "perf": 14.594,
+         "penalty": 1.000,
+         "score": 14.594,
+        },
+        {"rank": 112,
+         "abbr": "LSU",
+         "name": "Louisiana State University",
+         "gplayed": 16,
+         "gwon": 3,
+         "glost": 13,
+         "gpct": 18.75,
+         "swim": -43.2,
+         "sos": 0.480,
+         "perf": 14.426,
+         "penalty": 1.000,
+         "score": 14.426,
+        },
+        {"rank": 113,
+         "abbr": "IU",
+         "name": "Indiana University Quidditch",
+         "gplayed": 15,
+         "gwon": 5,
+         "glost": 10,
+         "gpct": 33.33,
+         "swim": -41.82,
+         "sos": 0.420,
+         "perf": 14.37,
+         "penalty": 1.000,
+         "score": 14.37,
+        },
+        {"rank": 114,
+         "abbr": "WOO",
+         "name": "Wooster Scottish Nationals",
+         "gplayed": 16,
+         "gwon": 4,
+         "glost": 12,
+         "gpct": 25,
+         "swim": -40.45,
+         "sos": 0.430,
+         "perf": 14.364,
+         "penalty": 1.000,
+         "score": 14.364,
+        },
+        {"rank": 115,
+         "abbr": "Web",
+         "name": "Webster University Quidditch",
+         "gplayed": 12,
+         "gwon": 3,
+         "glost": 9,
+         "gpct": 25,
+         "swim": -38.97,
+         "sos": 0.410,
+         "perf": 13.915,
+         "penalty": 1.000,
+         "score": 13.915,
+        },
+        {"rank": 116,
+         "abbr": "UNCW",
+         "name": "Wilmington Warhawks",
+         "gplayed": 20,
+         "gwon": 4,
+         "glost": 16,
+         "gpct": 20,
+         "swim": -46.4,
+         "sos": 0.480,
+         "perf": 13.541,
+         "penalty": 1.000,
+         "score": 13.541,
+        },
+        {"rank": 117,
+         "abbr": "TSLQC",
+         "name": "Tri-State Lightning Quidditch Club",
+         "gplayed": 13,
+         "gwon": 3,
+         "glost": 10,
+         "gpct": 23.08,
+         "swim": -45.67,
+         "sos": 0.460,
+         "perf": 13.474,
+         "penalty": 1.000,
+         "score": 13.474,
+        },
+        {"rank": 118,
+         "abbr": "GVQ",
+         "name": "Grand Valley Quidditch",
+         "gplayed": 9,
+         "gwon": 2,
+         "glost": 7,
+         "gpct": 22.22,
+         "swim": -39.35,
+         "sos": 0.390,
+         "perf": 12.796,
+         "penalty": 1.000,
+         "score": 12.796,
+        },
+        {"rank": 119,
+         "abbr": "CFQ",
+         "name": "Nearly Headless Knights Quidditch",
+         "gplayed": 13,
+         "gwon": 3,
+         "glost": 10,
+         "gpct": 23.08,
+         "swim": -50.09,
+         "sos": 0.460,
+         "perf": 12.179,
+         "penalty": 1.000,
+         "score": 12.179,
+        },
+        {"rank": 120,
+         "abbr": "BCQC",
+         "name": "British Columbia Quidditch Club",
+         "gplayed": 9,
+         "gwon": 2,
+         "glost": 7,
+         "gpct": 22.22,
+         "swim": -49.34,
+         "sos": 0.440,
+         "perf": 11.856,
+         "penalty": 1.000,
+         "score": 11.856,
+        },
+        {"rank": 121,
+         "abbr": "VCU",
+         "name": "Wizengamot Quidditch at VCU",
+         "gplayed": 16,
+         "gwon": 2,
+         "glost": 14,
+         "gpct": 12.5,
+         "swim": -53.25,
+         "sos": 0.490,
+         "perf": 11.046,
+         "penalty": 1.000,
+         "score": 11.046,
+        },
+        {"rank": 122,
+         "abbr": "GCLB",
+         "name": "Grove City Legion of Broom",
+         "gplayed": 9,
+         "gwon": 3,
+         "glost": 6,
+         "gpct": 33.33,
+         "swim": -44.51,
+         "sos": 0.330,
+         "perf": 10.938,
+         "penalty": 1.000,
+         "score": 10.938,
+        },
+        {"rank": 123,
+         "abbr": "SMSN",
+         "name": "San Marcos Sharknados",
+         "gplayed": 21,
+         "gwon": 3,
+         "glost": 18,
+         "gpct": 14.29,
+         "swim": -57.31,
+         "sos": 0.520,
+         "perf": 10.684,
+         "penalty": 1.000,
+         "score": 10.684,
+        },
+        {"rank": 124,
+         "abbr": "UMW",
+         "name": "University of Mary Washington Quidditch",
+         "gplayed": 16,
+         "gwon": 3,
+         "glost": 13,
+         "gpct": 18.75,
+         "swim": -56.5,
+         "sos": 0.480,
+         "perf": 10.491,
+         "penalty": 1.000,
+         "score": 10.491,
+        },
+        {"rank": 125,
+         "abbr": "Wildcats",
+         "name": "University of Arizona Quidditch",
+         "gplayed": 19,
+         "gwon": 3,
+         "glost": 16,
+         "gpct": 15.79,
+         "swim": -57.14,
+         "sos": 0.490,
+         "perf": 10.353,
+         "penalty": 1.000,
+         "score": 10.353,
+        },
+        {"rank": 126,
+         "abbr": "ISQ",
+         "name": "Iowa State Quidditch",
+         "gplayed": 8,
+         "gwon": 1,
+         "glost": 7,
+         "gpct": 12.5,
+         "swim": -59.08,
+         "sos": 0.530,
+         "perf": 10.316,
+         "penalty": 1.000,
+         "score": 10.316,
+        },
+        {"rank": 127,
+         "abbr": "PDX",
+         "name": "Portland Augureys",
+         "gplayed": 11,
+         "gwon": 2,
+         "glost": 9,
+         "gpct": 18.18,
+         "swim": -48.58,
+         "sos": 0.370,
+         "perf": 9.784,
+         "penalty": 1.000,
+         "score": 9.784,
+        },
+        {"rank": 128,
+         "abbr": "VCQ",
+         "name": "Villanova Community Quidditch",
+         "gplayed": 6,
+         "gwon": 1,
+         "glost": 5,
+         "gpct": 16.67,
+         "swim": -64.17,
+         "sos": 0.560,
+         "perf": 9.644,
+         "penalty": 1.000,
+         "score": 9.644,
+        },
+        {"rank": 129,
+         "abbr": "JHU",
+         "name": "Hopkins Hallows",
+         "gplayed": 9,
+         "gwon": 1,
+         "glost": 8,
+         "gpct": 11.11,
+         "swim": -61.67,
+         "sos": 0.530,
+         "perf": 9.337,
+         "penalty": 1.000,
+         "score": 9.337,
+        },
+        {"rank": 130,
+         "abbr": "FSU",
+         "name": "Florida State University",
+         "gplayed": 9,
+         "gwon": 1,
+         "glost": 8,
+         "gpct": 11.11,
+         "swim": -55.21,
+         "sos": 0.440,
+         "perf": 9.316,
+         "penalty": 1.000,
+         "score": 9.316,
+        },
+        {"rank": 131,
+         "abbr": "EMU",
+         "name": "Eastern Michigan Quidditch",
+         "gplayed": 9,
+         "gwon": 1,
+         "glost": 8,
+         "gpct": 11.11,
+         "swim": -49.31,
+         "sos": 0.350,
+         "perf": 8.493,
+         "penalty": 1.000,
+         "score": 8.493,
+        },
+        {"rank": 132,
+         "abbr": "MUFF",
+         "name": "Mansfield University Fire Ferrets Quidditch",
+         "gplayed": 8,
+         "gwon": 1,
+         "glost": 7,
+         "gpct": 12.5,
+         "swim": -61.3,
+         "sos": 0.430,
+         "perf": 7.84,
+         "penalty": 1.000,
+         "score": 7.84,
+        },
+        {"rank": 133,
+         "abbr": "SJSU",
+         "name": "San Jose State University Spartans",
+         "gplayed": 16,
+         "gwon": 0,
+         "glost": 16,
+         "gpct": 0,
+         "swim": -61.87,
+         "sos": 0.490,
+         "perf": 7.718,
+         "penalty": 1.000,
+         "score": 7.718,
+        },
+        {"rank": 134,
+         "abbr": "AQ",
+         "name": "Anteater Quidditch",
+         "gplayed": 18,
+         "gwon": 1,
+         "glost": 17,
+         "gpct": 5.56,
+         "swim": -63.69,
+         "sos": 0.470,
+         "perf": 7.409,
+         "penalty": 1.000,
+         "score": 7.409,
+        },
+        {"rank": 135,
+         "abbr": "ODM",
+         "name": "Osos De Muerte",
+         "gplayed": 8,
+         "gwon": 1,
+         "glost": 7,
+         "gpct": 12.5,
+         "swim": -70.2,
+         "sos": 0.560,
+         "perf": 7.298,
+         "penalty": 1.000,
+         "score": 7.298,
+        },
+        {"rank": 136,
+         "abbr": "NYB",
+         "name": "New York Badassilisks",
+         "gplayed": 7,
+         "gwon": 1,
+         "glost": 6,
+         "gpct": 14.29,
+         "swim": -65.85,
+         "sos": 0.450,
+         "perf": 7.159,
+         "penalty": 1.000,
+         "score": 7.159,
+        },
+        {"rank": 137,
+         "abbr": "BSF",
+         "name": "Big Sky Flyers Quidditch",
+         "gplayed": 10,
+         "gwon": 2,
+         "glost": 8,
+         "gpct": 20,
+         "swim": -59.63,
+         "sos": 0.340,
+         "perf": 6.967,
+         "penalty": 1.000,
+         "score": 6.967,
+        },
+        {"rank": 138,
+         "abbr": "BDS",
+         "name": "Brandeis Quidditch",
+         "gplayed": 18,
+         "gwon": 2,
+         "glost": 16,
+         "gpct": 11.11,
+         "swim": -64.46,
+         "sos": 0.420,
+         "perf": 6.844,
+         "penalty": 1.000,
+         "score": 6.844,
+        },
+        {"rank": 139,
+         "abbr": "CMQC",
+         "name": "Carnegie Mellon Quidditch Club",
+         "gplayed": 13,
+         "gwon": 2,
+         "glost": 11,
+         "gpct": 15.38,
+         "swim": -53.4,
+         "sos": 0.290,
+         "perf": 6.784,
+         "penalty": 1.000,
+         "score": 6.784,
+        },
+        {"rank": 140,
+         "abbr": "DRQ",
+         "name": "Death Row Quidditch",
+         "gplayed": 19,
+         "gwon": 2,
+         "glost": 17,
+         "gpct": 10.53,
+         "swim": -68.17,
+         "sos": 0.450,
+         "perf": 6.312,
+         "penalty": 1.000,
+         "score": 6.312,
+        },
+        {"rank": 141,
+         "abbr": "CF",
+         "name": "Crimson Fliers",
+         "gplayed": 19,
+         "gwon": 2,
+         "glost": 17,
+         "gpct": 10.53,
+         "swim": -69.59,
+         "sos": 0.470,
+         "perf": 6.208,
+         "penalty": 1.000,
+         "score": 6.208,
+        },
+        {"rank": 142,
+         "abbr": "SDQ",
+         "name": "Sun Devil Quidditch",
+         "gplayed": 17,
+         "gwon": 1,
+         "glost": 16,
+         "gpct": 5.88,
+         "swim": -70.46,
+         "sos": 0.490,
+         "perf": 6.017,
+         "penalty": 1.000,
+         "score": 6.017,
+        },
+        {"rank": 143,
+         "abbr": "SIU",
+         "name": "Southern Illinois University Quidditch",
+         "gplayed": 9,
+         "gwon": 1,
+         "glost": 8,
+         "gpct": 11.11,
+         "swim": -68.37,
+         "sos": 0.430,
+         "perf": 6.011,
+         "penalty": 1.000,
+         "score": 6.011,
+        },
+        {"rank": 144,
+         "abbr": "WVU",
+         "name": "West Virginia Mountaineers",
+         "gplayed": 11,
+         "gwon": 1,
+         "glost": 10,
+         "gpct": 9.09,
+         "swim": -60.16,
+         "sos": 0.330,
+         "perf": 5.941,
+         "penalty": 1.000,
+         "score": 5.941,
+        },
+        {"rank": 145,
+         "abbr": "LJQ",
+         "name": "Lumberjack Quidditch",
+         "gplayed": 20,
+         "gwon": 1,
+         "glost": 19,
+         "gpct": 5,
+         "swim": -71.57,
+         "sos": 0.480,
+         "perf": 5.565,
+         "penalty": 1.000,
+         "score": 5.565,
+        },
+        {"rank": 146,
+         "abbr": "AU",
+         "name": "Alfred University Saxons",
+         "gplayed": 5,
+         "gwon": 1,
+         "glost": 4,
+         "gpct": 20,
+         "swim": -53.11,
+         "sos": 0.450,
+         "perf": 10.974,
+         "penalty": 0.500,
+         "score": 5.487,
+        },
+        {"rank": 147,
+         "abbr": "TTQ",
+         "name": "Time Turners Quidditch",
+         "gplayed": 11,
+         "gwon": 1,
+         "glost": 10,
+         "gpct": 9.09,
+         "swim": -72.37,
+         "sos": 0.470,
+         "perf": 5.432,
+         "penalty": 1.000,
+         "score": 5.432,
+        },
+        {"rank": 148,
+         "abbr": "SUO",
+         "name": "Stockton University Ospreys",
+         "gplayed": 12,
+         "gwon": 1,
+         "glost": 11,
+         "gpct": 8.33,
+         "swim": -69.55,
+         "sos": 0.410,
+         "perf": 5.291,
+         "penalty": 1.000,
+         "score": 5.291,
+        },
+        {"rank": 149,
+         "abbr": "WSU",
+         "name": "Wichita State University",
+         "gplayed": 10,
+         "gwon": 0,
+         "glost": 10,
+         "gpct": 0,
+         "swim": -73.58,
+         "sos": 0.520,
+         "perf": 5.153,
+         "penalty": 1.000,
+         "score": 5.153,
+        },
+        {"rank": 150,
+         "abbr": "Astate",
+         "name": "Arkansas state Redwolf Quidditch",
+         "gplayed": 3,
+         "gwon": 1,
+         "glost": 2,
+         "gpct": 33.33,
+         "swim": -13.72,
+         "sos": 0.250,
+         "perf": 13.327,
+         "penalty": 0.390,
+         "score": 5.13,
+        },
+        {"rank": 151,
+         "abbr": "USM",
+         "name": "University of Southern Mississippi",
+         "gplayed": 10,
+         "gwon": 0,
+         "glost": 10,
+         "gpct": 0,
+         "swim": -75.73,
+         "sos": 0.460,
+         "perf": 4.056,
+         "penalty": 1.000,
+         "score": 4.056,
+        },
+        {"rank": 152,
+         "abbr": "TOL",
+         "name": "Toledo Quidditch",
+         "gplayed": 9,
+         "gwon": 0,
+         "glost": 9,
+         "gpct": 0,
+         "swim": -75.95,
+         "sos": 0.360,
+         "perf": 3.161,
+         "penalty": 1.000,
+         "score": 3.161,
+        },
+        {"rank": 153,
+         "abbr": "ICHex",
+         "name": "Ithaca College Hex",
+         "gplayed": 6,
+         "gwon": 0,
+         "glost": 6,
+         "gpct": 0,
+         "swim": -88.41,
+         "sos": 0.490,
+         "perf": 1.273,
+         "penalty": 1.000,
+         "score": 1.273,
+        },
+        {"rank": 154,
+         "abbr": "WTRQC",
+         "name": "West Texas Rebels Quidditch Club",
+         "gplayed": 5,
+         "gwon": 0,
+         "glost": 5,
+         "gpct": 0,
+         "swim": -82.79,
+         "sos": 0.470,
+         "perf": 2.518,
+         "penalty": 0.500,
+         "score": 1.259,
+        },
+        {"rank": 155,
+         "abbr": "CU",
+         "name": "Clark University Quidditch",
+         "gplayed": 6,
+         "gwon": 0,
+         "glost": 6,
+         "gpct": 0,
+         "swim": -89.7,
+         "sos": 0.480,
+         "perf": 0.932,
+         "penalty": 1.000,
+         "score": 0.932,
+        },
+        {"rank": 156,
+         "abbr": "RCAD",
+         "name": "Ringling College of Art and Design Quidditch",
+         "gplayed": 8,
+         "gwon": 0,
+         "glost": 8,
+         "gpct": 0,
+         "swim": -89.64,
+         "sos": 0.450,
+         "perf": 0.883,
+         "penalty": 1.000,
+         "score": 0.883,
+        },
+        {"rank": 157,
+         "abbr": "LUC",
+         "name": "Loyola University Chicago",
+         "gplayed": 11,
+         "gwon": 0,
+         "glost": 11,
+         "gpct": 0,
+         "swim": -90.01,
+         "sos": 0.490,
+         "perf": 0.864,
+         "penalty": 1.000,
+         "score": 0.864,
+        },
+        {"rank": 158,
+         "abbr": "UBD",
+         "name": "University at Buffalo Dragons",
+         "gplayed": 4,
+         "gwon": 0,
+         "glost": 4,
+         "gpct": 0,
+         "swim": -88.12,
+         "sos": 0.520,
+         "perf": 1.404,
+         "penalty": 0.440,
+         "score": 0.624,
+        },
+        {"rank": 159,
+         "abbr": "UOPQ",
+         "name": "Pacific Phoenix Quidditch Club",
+         "gplayed": 3,
+         "gwon": 0,
+         "glost": 3,
+         "gpct": 0,
+         "swim": -86.09,
+         "sos": 0.380,
+         "perf": 1.415,
+         "penalty": 0.390,
+         "score": 0.544,
+        },
+        {"rank": 160,
+         "abbr": "UNT",
+         "name": "University of North Texas",
+         "gplayed": 5,
+         "gwon": 0,
+         "glost": 5,
+         "gpct": 0,
+         "swim": -91.54,
+         "sos": 0.500,
+         "perf": 0.504,
+         "penalty": 0.500,
+         "score": 0.252,
+        },
+        {"rank": 161,
+         "abbr": "DQC",
+         "name": "Drexel Quidditch Club",
+         "gplayed": 1,
+         "gwon": 0,
+         "glost": 1,
+         "gpct": 0,
+         "swim": -83.16,
+         "sos": 0.330,
+         "perf": 1.731,
+         "penalty": 0.070,
+         "score": 0.128,
+        },
+        {"rank": 162,
+         "abbr": "Skidditch",
+         "name": "Skidmore Quidditch",
+         "gplayed": 1,
+         "gwon": 0,
+         "glost": 1,
+         "gpct": 0,
+         "swim": -92.52,
+         "sos": 0.680,
+         "perf": 0.358,
+         "penalty": 0.070,
+         "score": 0.026,
+        },
+        {"rank": 163,
+         "abbr": "HTH",
+         "name": "Horn Tailed Horcruxes",
+         "gplayed": 3,
+         "gwon": 0,
+         "glost": 3,
+         "gpct": 0,
+         "swim": -93.57,
+         "sos": 0.410,
+         "perf": 0,
+         "penalty": 0.390,
+         "score": 0,
+        },
+      ];
+
+    /**
+     * http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+     * Randomize array element order in-place.
+     * Using Durstenfeld shuffle algorithm.
+    **/
+    function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+      return array;
+    }
+
+    function getStripe(i) {
+      if(i % 2 == 1) {
+        return "odd";
+      } else {
+        return "even";
+      }
+    }
+
+    function renderTeams(teams) {
+      var d = document.getElementById("teamlist");
+      d.innerHTML = "<h3>Example Teams</h3>";
+
+      var t = document.createElement("table");
+
+      var head = document.createElement("thead");
+      head.innerHTML = "<th>Seed</th>"
+        + "<th>Rank</th>"
+        + "<th>Abbr</th>"
+        + "<th>Name</th>"
+        + "<th>GP</th>"
+        + "<th>W</th>"
+        + "<th>L</th>"
+        + "<th>Pct</th>"
+        + "<th>SWIM</th>"
+        + "<th>Perf</th>"
+      ;
+      t.appendChild(head);
+
+      for(var i=0; i<teams.length; i++) {
+        team = teams[i];
+
+        var row = document.createElement("tr");
+        row.setAttribute("class", getStripe(i));
+        row.innerHTML = "<td>" + (i+1) + "</td>"
+          + "<td>" + team.rank + "</td>"
+          + "<td>" + team.abbr + "</td>"
+          + "<td>" + team.name + "</td>"
+          + "<td>" + team.gplayed + "</td>"
+          + "<td>" + team.gwon + "</td>"
+          + "<td>" + team.glost + "</td>"
+          + "<td>" + team.gpct + "%</td>"
+          + "<td>" + team.swim + "%</td>"
+          + "<td>" + team.perf + "%</td>"
+        ;
+        t.appendChild(row);
+      }
+
+      d.appendChild(t);
+    }
+
+    function renderStandings(sim, teams) {
+      sim.html += "<h4>Standings:</h4>"
+      sim.html += "<table class=\"sortable\"><thead>";
+      sim.html += "<th>Rank</th><th>Team</th>";
+      sim.html += "</thead>";
+      for(var i=0; i<teams.length; i++) {
+        var team = teams[i];
+        sim.html += "<tr class=\"" + getStripe(i) + "\">";
+        sim.html += "<td>" + (i+1) + "</td>"
+          + "<td>" + team.abbr + " (" + team.won + "-" + team.lost + ")";
+        sim.html += "</tr>";
+      }
+      sim.html += "</table>";
+    }
+
+    function startSim(teams) {
+      var sim = {};
+      sim.html = "";
+      sim.games = 0;
+      sim.competitive = 0;
+      sim.timeslots = [];
+      sim.firstslot = 0;
+      sim.rematches = 0;
+      sim.teams = teams;
+
+      for(var i=0; i<teams.length; i++) {
+        var team = teams[i];
+        team.won = 0;
+        team.lost = 0;
+        team.played = 0;
+        team.opponents = [];
+      }
+
+      return sim;
+    }
+
+    function havePlayed(a, b) {
+      for(var i=0; i<a.opponents.length; i++) {
+        if(a.opponents[i] == b) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function upsetChance(a, b) {
+      var pct_diff = Math.abs(a.perf - b.perf);
+      var upset_chance = Math.pow((100.0 - pct_diff) / 100.0, 3.0) / 2.0; // range from 0.5 to 0
+      //  pct_diff ranges from 0 to 100
+      //  upset_chance ranges from 0.5 to 0.0
+      //  At 0, upset chance should be 0.5
+      //  At 25, upset chance by above formula would be 0.21
+      //  At 50, upset chance by above formula would be 0.06
+      //  At 75, upset chance by above formula would be 0.01
+      //  At 100, upset chance should be 0.0
+      return upset_chance;
+    }
+
+    // Returns true if there is a 20% chance of an upset
+    function isCompetitive(a, b) {
+      var upset_chance = upsetChance(a, b);
+      if(upset_chance > 0.2) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    function playGame(sim, a, b, num_pitches) {
+      sim.games++;
+      if(isCompetitive(a, b)) {
+        sim.competitive++;
+      }
+
+      if(havePlayed(a, b)) {
+        sim.rematches++;
+      }
+
+      a.opponents.push(b);
+      b.opponents.push(a);
+
+      //console.log("playGame", a.abbr, b.abbr);
+
+      var scheduled = false;
+      if(sim.timeslots.length == 0 || sim.timeslots[sim.timeslots.length-1].length != 0) {
+        sim.timeslots.push([]);
+      }
+
+      for(var i=sim.firstslot; scheduled == false && i<sim.timeslots.length; i++) {
+        var timeslot = sim.timeslots[i];
+        //console.log("timeslot", i, "length", sim.timeslots[i].length);
+        if(timeslot.length != num_pitches) {
+          var good_slot = true;
+          for(var j=0; scheduled == false && j<timeslot.length; j++) {
+            if(timeslot[j][0] == a || timeslot[j][1] == a
+                || timeslot[j][0] == b || timeslot[j][1] == b) {
+              good_slot = false;
+            }
+          }
+          if(good_slot) {
+            timeslot.push([a, b]);
+            scheduled = true;
+          }
+        }
+      }
+
+      if(!scheduled) {
+        console.log("failed to schedule", a.abbr, b.abbr);
+      }
+
+      a.played++;
+      b.played++;
+
+      var upset_chance = upsetChance(a, b);
+      //console.log("a", a.perf, "b", b.perf, "upset_chance", upset_chance);
+      if(a.perf > b.perf && (deterministic || (Math.random() > upset_chance))) {
+        a.won++;
+        b.lost++;
+        return true;
+      } else {
+        a.lost++;
+        b.won++;
+        return false;
+      }
+    }
+
+    function getNumTimeslots(timeslots) {
+      var num = 0;
+      for(var i=0; i<timeslots.length; i++) {
+        if(timeslots[i].length > 0) {
+          num++;
+        }
+      }
+
+      return num;
+    }
+
+    function getMinGames(teams) {
+      //console.log("teams", teams);
+      var min = null;
+      for(var i=0; i<teams.length; i++) {
+        if(min == null || teams[i].played < min) {
+          //console.log("min", min, teams[i], teams[i].played);
+          min = teams[i].played;
+        }
+      }
+      return min;
+    }
+
+    function getMaxGames(teams) {
+      var max = null;
+      for(var i=0; i<teams.length; i++) {
+        if(max == null || teams[i].played > max) {
+          max = teams[i].played;
+        }
+      }
+      return max;
+    }
+
+    function simBracket(sim, teams, num_pitches) {
+      teams.sort(function(a, b) { return b.won - a.won; });
+      var levels = Math.floor(Math.log2(teams.length));
+      var playin = teams.length - Math.pow(2, levels);
+      //console.log("playin", playin);
+      for(var i=0; i<teams.length; i++) {
+        teams[i].seed = i+1;
+      }
+
+      sim.html += "<h4>Bracket:</h4>";
+      sim.html += "<table>";
+      sim.html += "<thead>";
+
+      if(playin != 0) {
+        sim.html += "<th>Play-in</th>";
+      }
+
+      for(var i=levels; i>0; i--) {
+        sim.html += "<th>";
+        if(i == 1) {
+          sim.html += "Finals";
+        } else if(i == 2) {
+          sim.html += "Semifinals";
+        } else if(i == 3) {
+          sim.html += "Quarterfinals";
+        } else {
+          sim.html += "Round of " + Math.pow(2, i);
+        }
+        sim.html += "</th>";
+      }
+      sim.html += "</thead><tr>";
+
+      var playing = [];
+      var new_playing = [];
+      for(var i=0; i<teams.length - playin; i++) {
+        new_playing.push(teams[i]);
+      }
+
+      if(playin != 0) {
+        sim.html += "<td style=\"vertical-align: top\">";
+        //sim.html += playin + " games<br/>";
+        for(var i=playin-1; i>=0; i--) {
+          var seed1 = teams.length - playin - i;
+          var seed2 = teams.length - i;
+          //console.log("seed1", seed1, "seed2", seed2);
+          var a = teams[seed1-1];
+          var b = teams[seed2-1];
+          //console.log("a", a, "b", b);
+          var render_a = "";
+          var render_b = "";
+          if(playGame(sim, a, b, num_pitches)) {
+            new_playing.push(a);
+            render_a = "<b>" + a.abbr + "</b>&nbsp;(#" + a.seed + ")&nbsp;";
+            render_b = b.abbr + "&nbsp;(#" + b.seed + ")&nbsp;";
+          } else {
+            new_playing.push(b);
+            render_a = a.abbr + "&nbsp;(#" + a.seed + ")&nbsp;";
+            render_b = "<b>" + b.abbr + "</b>&nbsp;(#" + b.seed + ")&nbsp;";
+          }
+          sim.html += render_a + "&nbsp;vs&nbsp;" + render_b + "<br/>";
+        }
+        sim.html += "</td>";
+      }
+      playing = new_playing;
+
+      for(var i=levels; i>0; i--) {
+        new_playing = [];
+        sim.html += "<td style=\"vertical-align: top\">";
+        var games = Math.pow(2, i-1);
+        //console.log("games", games, "playing", playing.length, playing);
+        for(var j=0; j<games; j++) {
+          var seed1 = j+1;
+          var seed2 = 2*games - j;
+          //console.log("seed1", seed1, "seed2", seed2);
+          var a = playing[seed1-1];
+          var b = playing[seed2-1];
+          //console.log("a", a, "b", b);
+          var render_a = "";
+          var render_b = "";
+          if(playGame(sim, a, b, num_pitches)) {
+            new_playing.push(a);
+            render_a = "<b>" + a.abbr + "</b>&nbsp;(#" + a.seed + ")&nbsp;";
+            render_b = b.abbr + "&nbsp;(#" + b.seed + ")&nbsp;";
+          } else {
+            new_playing.push(b);
+            render_a = a.abbr + "&nbsp;(#" + a.seed + ")&nbsp;";
+            render_b = "<b>" + b.abbr + "</b>&nbsp;(#" + b.seed + ")&nbsp;";
+          }
+          sim.html += render_a + "&nbsp;vs&nbsp;" + render_b + "<br/>";
+        }
+        sim.html += "</td>";
+        playing = new_playing;
+      }
+      sim.html += "</tr></table>";
+    }
+
+    /**
+     * Simulation functions are given an object with the following properties and can modify it as they need:
+     *   name: Simulation name
+     *   html: Simulation HTML
+     *   games: Number of games
+     *   competitive: Number of competitive games
+     *   timeslots: Timeslots required (array)
+     *   mingames: Minimum games played by a team
+     *   maxgames: Maximum games played by a team
+     *   rematches: Number of rematches
+    **/
+
+    function simPools(sim, teams, num_pitches, pool_size) {
+      sim.name = "Pools of " + pool_size + " and Bracket";
+      //console.log(sim.name);
+
+      // Divide teams into pools
+      var pools = [];
+      var pool = null;
+      var num_pools = Math.ceil(teams.length / pool_size);
+      for(var i=0; i<num_pools; i++) {
+        var pool = [];
+        for(var j=i; j<teams.length; j+=num_pools) {
+          pool.push(teams[j]);
+        }
+        pools.push(pool);
+      }
+
+      sim.html += "<h4>Pool play:</h4>";
+      sim.html += "There are " + num_pools + " pools.";
+      if(teams.length % pool_size != 0) {
+        sim.html += " There are " + (teams.length % num_pools) + " pools of " + pool_size
+          + " and " + (num_pools - (teams.length % num_pools)) + " with " + pools[pools.length-1].length + " teams.";
+      } else {
+        sim.html += " All of them have " + pool_size + " teams.";
+      }
+
+      // Play games
+      for(var i=0; i<pools.length; i++) {
+        var pool = pools[i];
+        //console.log("pool", i);
+        for(var j=0; j<pool.length; j++) {
+          for(var k=j+1; k<pool.length; k++) {
+            playGame(sim, pool[j], pool[k], num_pitches);
+          }
+        }
+      }
+
+      // Render pools and pool play standings
+      sim.html += "<br/>";
+      sim.html += "<table>";
+      sim.html += "<thead>";
+      for(var i=0; i<pools.length; i++) {
+        sim.html += "<th>Pool " + (i+1) + "</th>";
+      }
+      sim.html += "</thead><tr>";
+      for(var i=0; i<pools.length; i++) {
+        sim.html += "<td style=\"vertical-align: top\">";
+
+        var pool = pools[i];
+        pool.sort(function(a, b) { return b.won - a.won; });
+        var pool_size = pool.length;
+
+        for(var j=0; j<pool_size; j++) {
+          var team = pool[j];
+          sim.html += team.abbr + " (" + team.won + "-" + team.lost + ") <br/>";
+        }
+        sim.html += "</td>";
+      }
+      sim.html += "</tr></table>";
+
+      // Bracket
+      simBracket(sim, teams, num_pitches);
+      
+      //console.log("sim", sim);
+
+      sim.mingames = getMinGames(teams);
+      sim.maxgames = getMaxGames(teams);
+      sim.slots = getNumTimeslots(sim.timeslots);
+
+      return sim;
+    }
+
+    function simSwissMonrad(sim, teams, num_pitches, full_bracket, hybrid) {
+      if(hybrid == 0) {
+        sim.name = "Swiss";
+      } else {
+        sim.name = "Hybrid Swiss, " + hybrid + " Fewer Rounds";
+      }
+
+      if(full_bracket) {
+        sim.name += " and Full Bracket";
+      } else if(hybrid == 0) {
+        sim.name += " and Tiebreakers";
+      }
+
+      num_rounds = Math.ceil(Math.log2(teams.length));
+      num_rounds -= hybrid;
+
+      sim.html += "<h4>Gameplay:</h4>"
+      sim.html += "<table><thead>";
+      for(var i=0; i<num_rounds; i++) {
+        sim.html += "<th>Round " + (i+1) + "</th>";
+      }
+      sim.html += "</thead><tr>";
+
+      var matchups = [];
+      for(var i=0; i<num_rounds; i++) {
+        sim.html += "<td style=\"vertical-align: top\">";
+
+        matchups = [];
+        var done = new Map();
+        for(var j=0; j<teams.length; j++) {
+          //console.log("done", done);
+          if(done.has(j)) {
+            continue;
+          }
+
+          for(var k=j+1; k<teams.length; k++) {
+            if(done.has(k)) {
+              continue;
+            }
+
+            if(!havePlayed(teams[j], teams[k])) {
+              //console.log("matching up", j, k, teams[j].abbr, teams[k].abbr);
+              matchups.push([teams[j], teams[k]]);
+              done.set(j, true);
+              done.set(k, true);
+              break;
+            }
+          }
+        }
+
+        for(var j=0; j<matchups.length; j++) {
+          //console.log("matchup", j, matchups[j]);
+          var a = matchups[j][0];
+          var b = matchups[j][1];
+          var render_a = "";
+          var render_b = "";
+          if(playGame(sim, a, b, num_pitches)) {
+            render_a = "<b>" + a.abbr + "</b>&nbsp;(" + (a.won-1) + "-" + a.lost + ")";
+            render_b = b.abbr + "&nbsp;(" + b.won + "-" + (b.lost-1) + ")";
+          } else {
+            render_a = a.abbr + "&nbsp;(" + a.won + "-" + (a.lost-1) + ")";
+            render_b = "<b>" + b.abbr + "</b>&nbsp;(" + (b.won-1) + "-" + b.lost + ")";
+          }
+          sim.html += render_a + "&nbsp;vs&nbsp;" + render_b + "<br/>";
+        }
+
+        sim.html += "</td>";
+        teams.sort(function(a, b) { return b.won - a.won; });
+
+        //if(teams[0].won != teams[1].won) {
+        //  break;
+        //}
+      }
+      sim.html += "</tr></table>";
+      
+      renderStandings(sim, teams);
+
+      if(full_bracket) {
+        simBracket(sim, teams, num_pitches);
+      } else {
+        if(teams[0].won != teams[1].won) {
+          sim.html += "<h4>Bracket:</h4><b>There is a clear winner, no bracket is necessary.</b>";
+        } else {
+          var bracket_teams = [];
+          for(var i=0; i<teams.length; i++) {
+            if(teams[i].won == teams[0].won) {
+              bracket_teams.push(teams[i]);
+            } else {
+              break;
+            }
+          }
+          simBracket(sim, bracket_teams, num_pitches);
+        }
+      }
+
+      sim.mingames = getMinGames(teams);
+      sim.maxgames = getMaxGames(teams);
+      sim.slots = getNumTimeslots(sim.timeslots);
+
+      return sim;
+    }
+
+    function simRoundRobin(sim, teams, num_pitches, playoff_teams) {
+      sim.name = "Round Robin";
+      sim.games = teams.length * (teams.length - 1) / 2;
+
+      if(playoff_teams == 0) {
+        sim.name += " w/ no playoff";
+      } else if(playoff_teams == 2) {
+        sim.name += " w/ 2-team playoff";
+      } else if(playoff_teams == 4) {
+        sim.name += " w/ 4-team playoff";
+      } else {
+        return null;
+      }
+
+      // Play games
+      for(var i=0; i<teams.length; i++) {
+        for(var j=i+1; j<teams.length; j++) {
+          var a = teams[i];
+          var b = teams[j];
+          playGame(sim, a, b, num_pitches);
+        }
+      }
+
+      // Standings
+      renderStandings(sim, teams);
+      
+      // Bracket
+      if(playoff_teams > 0) {
+        var bracket_teams = teams.slice(0, playoff_teams);
+        //console.log("bracket_teams", bracket_teams.length, bracket_teams);
+        simBracket(sim, bracket_teams, num_pitches);
+      }
+
+      sim.mingames = getMinGames(teams);
+      sim.maxgames = getMaxGames(teams);
+      sim.slots = getNumTimeslots(sim.timeslots);
+
+      return sim;
+    }
+
+    function renderFormats(results) {
+      var d = document.getElementById("simulations");
+      d.innerHTML = "<h3>Tournament Simulations</h3>";
+
+      for(var i=0; i<results.length; i++) {
+        var res = results[i];
+
+        var s = document.createElement("div");
+        var html = "<h3>Format: " + res.name + "</h3>";
+        //console.log("res", res);
+        html += res.html;
+        html += "<h3>Summary:</h3>";
+        html += "Games: " + res.games;
+        html += "<br/>Competitive games: " + res.competitive;
+        html += "<br/>Timeslots needed: " + res.slots;
+        html += "<br/>Min games for a team: " + res.mingames;
+        html += "<br/>Max games for a team: " + res.maxgames;
+        s.innerHTML = html;
+        d.appendChild(s);
+      }
+    }
+
+    function renderSummary(formats) {
+      var d = document.getElementById("summary");
+      d.innerHTML = "<h3>Summary</h3>";
+
+      var t = document.createElement("table");
+      t.className = "sortable";
+
+      var head = document.createElement("thead");
+      head.innerHTML = "<th>Format</th><th>Games</th><th>Competitive games</th><th>Pct</th><th>Rematches</th><th>Timeslots</th><th>Min games</th><th>Max games</th>";
+      t.appendChild(head);
+
+      for(var i = 0; i < formats.length; i++) {
+        res = formats[i];
+
+        var row = document.createElement("tr");
+        row.setAttribute("class", getStripe(i));
+        row.innerHTML = "<td>" + res.name + "</td>"
+          + "<td>" + res.games + "</td>"
+          + "<td>" + res.competitive + "</td>"
+          + "<td>" + Math.round((100.0 * res.competitive / res.games)) + "%</td>"
+          + "<td>" + res.rematches + "</td>"
+          + "<td>" + res.slots + "</td>"
+          + "<td>" + res.mingames + "</td>"
+          + "<td>" + res.maxgames + "</td>";
+        t.appendChild(row);
+      }
+
+      d.appendChild(t);
+      //sorttable.makeSortable(t);
+
+    }
+
+    var num_teams = null;
+    var num_pitches = null;
+    var sel_teams = null;
+    var deterministic = null;
+    var random = null;
+    function recalculate() {
+      var input_teams = document.getElementById("num_teams").value;
+      num_pitches = document.getElementById("num_pitches").value;
+      deterministic = (document.getElementById("deterministic").value == "yes");
+      var input_random = (document.getElementById("random").value == "yes");
+
+      //console.log("input_teams", input_teams, "num_teams", num_teams);
+
+      if(random != input_random || input_teams != num_teams) {
+        num_teams = input_teams;
+        random = input_random;
+
+        if(random) {
+          // Select a random set of teams
+          var teams_copy = teams.slice(0);
+          shuffleArray(teams_copy);
+          sel_teams = teams_copy.slice(0, num_teams);
+          sel_teams.sort(function(a, b) { return a.rank - b.rank; });
+        } else {
+          sel_teams = teams.slice(0, num_teams);
+        }
+
+        renderTeams(sel_teams);
+      }
+
+      var results = [];
+      var sim = {};
+      var last_num_pools = null;
+      for(pool_size=3; pool_size<=12; pool_size++) {
+        var num_pools = Math.ceil(num_teams / pool_size);
+
+        if(num_pools < 2) {
+          break;
+        }
+
+        if(num_pools != last_num_pools) {
+          sim = startSim(sel_teams.slice(0));
+          //console.log("sim", sim);
+          results.push(simPools(sim, sim.teams, num_pitches, pool_size));
+        }
+
+        last_num_pools = num_pools;
+      }
+
+      for(var i=0; true; i++) {
+        if(i < Math.ceil(Math.log2(sel_teams.length)/2.0)) {
+          sim = startSim(sel_teams.slice(0));
+          results.push(simSwissMonrad(sim, sim.teams, num_pitches, false, i));
+        } else {
+          break;
+        }
+      }
+
+      sim = startSim(sel_teams.slice(0));
+      results.push(simSwissMonrad(sim, sim.teams, num_pitches, true, 0));
+
+      if(num_teams <= 12) {
+        for(var i=0; i<5; i+=2) {
+          sim = startSim(sel_teams.slice(0));
+          results.push(simRoundRobin(sim, sim.teams, num_pitches, i));
+        }
+      }
+
+      renderFormats(results);
+      renderSummary(results);
+    }
+    </script>
+  </head>
+  <body>
+    <h2>Tournament Format Simulator</h2>
+    <i>Teams are selected from the 163 teams who played in the 2015-2016 USQ season. Feel free to reload the page or play with the parameters.
+    Round robin simulations kick in with 12 teams or under.</i>
+    <div id="controller">
+      <form action="#">
+        # teams: <input type="number" name="num_teams" id="num_teams" min="3" max="160" maxlength="5" value="20" onChange="recalculate()" /> (enter any number between 3 and 160)
+        <br/>
+        # pitches: <input type="number" name="num_pitches" id="num_pitches" min="1" max="20" maxlength="5" value="4" onChange="recalculate()" /> (enter any number between 1 and 20)
+        <br/>
+        Deterministic: <select name="deterministic" id="deterministic" value="no" onChange="recalculate()">
+          <option value="yes" selected="selected">yes</option>
+          <option value="no">no</option>
+        </select>
+        <br/>
+        Random teams: <select name="random" id="random" value="yes" onChange="recalculate()">
+          <option value="yes" selected="selected">Random teams</option>
+          <option value="no">Top teams</option>
+        </select>
+      </form>
+    </div>
+    <div id="summary"></div>
+    <div id="teamlist"></div>
+    <div id="simulations"></div>
+    <script type="text/javascript">
+      window.onload = recalculate;
+    </script>
+  </body>
+</html>

@@ -2533,6 +2533,7 @@
     }
 
     function sortTeamsByWins(teams) {
+      // TODO: have to make this stable!!!
       teams.sort(function(a, b) { return b.won - a.won; });
     }
 
@@ -2754,6 +2755,11 @@
       }
       sim.html += "</thead><tr>";
 
+      var round_results = [];
+      for(var i=0; i<teams.length; i++) {
+        round_results[i] = [[teams[i], 0, 0]];
+      }
+
       var matchups = [];
       for(var i=0; i<num_rounds; i++) {
         sim.html += "<td style=\"vertical-align: top\">";
@@ -2839,13 +2845,43 @@
         sim.html += "</td>";
         sortTeamsByWins(teams);
 
+        for(var j=0; j<teams.length; j++) {
+          round_results[j].push([teams[j], teams[j].won, teams[j].lost]);
+        }
+
         //if(teams[0].won != teams[1].won) {
         //  break;
         //}
       }
       sim.html += "</tr></table>";
       
-      renderStandings(sim, teams);
+      sim.html += "<h4>Standings:</h4>"
+      sim.html += "<table class=\"sortable\"><thead>";
+      sim.html += "<th>Rank</th><th>Initial Seeding</th>";
+      for(var i=1; i<round_results[0].length; i++) {
+        sim.html += "<th>Round " + i + "</th>";
+      }
+      sim.html += "</thead>";
+      sim.html += "<tbody>";
+      //console.log("round_results", round_results);
+      for(var i=0; i<round_results.length; i++) {
+        sim.html += "<tr class=\"" + getStripe(i) + "\">";
+        sim.html += "<td>" + (i+1) + "</td>";
+        var round = round_results[i];
+        for(var j=0; j<round.length; j++) {
+          var team = round[j][0];
+          var won = round[j][1];
+          var lost = round[j][2];
+          var render_team = team.abbr;
+          if(j > 0) {
+            render_team += "&nbsp;(" + won + "-" + lost + ")";
+          }
+          sim.html += "<td>" + render_team + "</td>";
+        }
+        sim.html += "</tr>";
+      }
+      sim.html += "</tbody>";
+      sim.html += "</table>";
 
       // How big a bracket?
       var winning_teams = 0;
@@ -3310,7 +3346,7 @@
         Deterministic: <select name="deterministic" id="deterministic" value="no" onChange="stateChanged()">
           <option value="yes" selected="selected">yes</option>
           <option value="no">no</option>
-        </select>
+        </select> (set to yes to simulate upsets happening)
         <br/>
         Random teams: <select name="randomTeams" id="randomTeams" value="yes" onChange="stateChanged()">
           <option value="yes" selected="selected">Random teams</option>

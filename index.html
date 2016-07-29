@@ -3,7 +3,7 @@
     <title>Tournament Format Simulator</title>
     <!-- <link rel="stylesheet" type="text/css" href="autumn_daze.css" media="all"> -->
     <link rel="stylesheet" type="text/css" href="coffee-with-milk.css" media="all">
-    <!-- <script type="text/javascript" src="sorttable.js"></script> -->
+    <script type="text/javascript" src="sorttable.js"></script>
     <style>
       div {
         border: 1px dotted black;
@@ -2366,6 +2366,7 @@
     }
 
     function renderStandings(sim, teams) {
+      sortTeamsByWins(teams);
       sim.html += "<h4>Standings:</h4>"
       sim.html += "<table class=\"sortable\"><thead>";
       sim.html += "<th>Rank</th><th>Team</th>";
@@ -2380,6 +2381,11 @@
       sim.html += "</table>";
     }
 
+    function deepCopy(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    var id = 0;
     function startSim(teams) {
       var sim = {};
       sim.html = "";
@@ -2388,10 +2394,11 @@
       sim.timeslots = [];
       sim.firstslot = 0;
       sim.rematches = 0;
-      sim.teams = teams;
+      sim.teams = deepCopy(teams);
+      sim.id = (id++);
 
-      for(var i=0; i<teams.length; i++) {
-        var team = teams[i];
+      for(var i=0; i<sim.teams.length; i++) {
+        var team = sim.teams[i];
         team.won = 0;
         team.lost = 0;
         team.played = 0;
@@ -2403,7 +2410,7 @@
 
     function havePlayed(a, b) {
       for(var i=0; i<a.opponents.length; i++) {
-        if(a.opponents[i] == b) {
+        if(a.opponents[i][0] == b) {
           return true;
         }
       }
@@ -2443,9 +2450,6 @@
         sim.rematches++;
       }
 
-      a.opponents.push(b);
-      b.opponents.push(a);
-
       //console.log("playGame", a.abbr, b.abbr);
 
       var scheduled = false;
@@ -2483,10 +2487,14 @@
       if(a.perf > b.perf && (state.deterministic || (Math.random() > upset_chance))) {
         a.won++;
         b.lost++;
+        a.opponents.push([b, 1]);
+        b.opponents.push([a, 0]);
         return true;
       } else {
         a.lost++;
         b.won++;
+        a.opponents.push([b, 0]);
+        b.opponents.push([a, 1]);
         return false;
       }
     }
@@ -2524,8 +2532,12 @@
       return max;
     }
 
-    function simBracket(sim, teams, num_pitches) {
+    function sortTeamsByWins(teams) {
       teams.sort(function(a, b) { return b.won - a.won; });
+    }
+
+    function simBracket(sim, teams, num_pitches) {
+      sortTeamsByWins(teams);
       var levels = Math.floor(Math.log2(teams.length));
       var playin = teams.length - Math.pow(2, levels);
       //console.log("playin", playin);
@@ -2621,6 +2633,10 @@
         playing = new_playing;
       }
       sim.html += "</tr></table>";
+
+      if(playing.length == 1) {
+        sim.winner = playing[0];
+      }
     }
 
     /**
@@ -2683,7 +2699,7 @@
         sim.html += "<td style=\"vertical-align: top\">";
 
         var pool = pools[i];
-        pool.sort(function(a, b) { return b.won - a.won; });
+        sortTeamsByWins(pool);
         var pool_size = pool.length;
 
         for(var j=0; j<pool_size; j++) {
@@ -2706,23 +2722,30 @@
       return sim;
     }
 
-    function simSwissMonrad(sim, teams, num_pitches, full_bracket, hybrid) {
-      if(hybrid == 0) {
+    function simSwiss(sim, teams, num_pitches, bracket_size, hybrid, pairFIDE) {
+      if(pairFIDE === undefined || pairFIDE == 0) {
         sim.name = "Swiss (Monrad)";
       } else {
-        sim.name = "Hybrid Swiss (Monrad), " + hybrid + " Fewer Rounds";
+        sim.name = "Swiss (FIDE)";
       }
 
-      if(full_bracket) {
+      var num_rounds = Math.ceil(Math.log2(teams.length));
+      num_rounds -= hybrid;
+
+      sim.name = num_rounds + "-round " + sim.name;
+
+      //console.log("bracket_size", bracket_size, "teams.length", teams.length);
+      if(bracket_size == teams.length) {
         sim.name += " and Full Bracket";
-      } else if(hybrid == 0) {
+      } else if(bracket_size == 0 && hybrid == 0) {
         sim.name += " and Tiebreakers";
+      } else if(bracket_size == 2) {
+        sim.name += " and 2-team playoff";
+      } else if(bracket_size == 4) {
+        sim.name += " and 4-team playoff";
       }
 
       //console.log(sim.name);
-
-      num_rounds = Math.ceil(Math.log2(teams.length));
-      num_rounds -= hybrid;
 
       sim.html += "<h4>Gameplay:</h4>"
       sim.html += "<table><thead>";
@@ -2743,39 +2766,78 @@
             continue;
           }
 
-          for(var k=j+1; k<teams.length; k++) {
-            if(done.has(k)) {
-              continue;
+          var opponent = null;
+
+          if(pairFIDE == 1) {
+            var numSameRecord = 0;
+            for(var k=0; k<teams.length; k++) {
+              if(teams[k].won == teams[j].won) {
+                numSameRecord++;
+              }
             }
 
-            if(!havePlayed(teams[j], teams[k])) {
-              //console.log("matching up", j, k, teams[j].abbr, teams[k].abbr);
-              matchups.push([teams[j], teams[k]]);
-              done.set(j, true);
-              done.set(k, true);
-              break;
+            if(numSameRecord == 1) {
+              for(var k=j+1; k<teams.length; k++) {
+                if(k != j && !done.has(k) && !havePlayed(teams[j], teams[k])) {
+                  opponent = k;
+                  break;
+                }
+              }
+            } else {
+              var offset = Math.floor(numSameRecord/2);
+              for(var k=j+offset; k<teams.length; k++) {
+                if(k != j && !done.has(k) && !havePlayed(teams[j], teams[k])) {
+                  opponent = k;
+                  break;
+                }
+              }
             }
+          } else {
+            for(var k=j+1; k<teams.length; k++) {
+              if(k != j && !done.has(k) && !havePlayed(teams[j], teams[k])) {
+                opponent = k;
+                break;
+              }
+            }
+          }
+
+          if(opponent) {
+            //console.log("matching up", j, k);
+            //console.log(teams[j].abbr, teams[k].abbr);
+            matchups.push([j, k]);
+            done.set(j, true);
+            done.set(k, true);
           }
         }
 
         for(var j=0; j<matchups.length; j++) {
           //console.log("matchup", j, matchups[j]);
-          var a = matchups[j][0];
-          var b = matchups[j][1];
+          var a_seed = matchups[j][0] + 1;
+          var b_seed = matchups[j][1] + 1;
+          var a = teams[a_seed-1];
+          var b = teams[b_seed-1];
           var render_a = "";
           var render_b = "";
+
+          var a_desc = "(#" + a_seed + ", " + a.won + "-" + a.lost + ")";
+          var b_desc = "(#" + b_seed + ", " + b.won + "-" + b.lost + ")";
+
           if(playGame(sim, a, b, num_pitches)) {
-            render_a = "<b>" + a.abbr + "</b>&nbsp;(" + (a.won-1) + "-" + a.lost + ")";
-            render_b = b.abbr + "&nbsp;(" + b.won + "-" + (b.lost-1) + ")";
+            render_a = "<b>" + a.abbr + "</b>";
+            render_b = b.abbr;
           } else {
-            render_a = a.abbr + "&nbsp;(" + a.won + "-" + (a.lost-1) + ")";
-            render_b = "<b>" + b.abbr + "</b>&nbsp;(" + (b.won-1) + "-" + b.lost + ")";
+            render_a = a.abbr;
+            render_b = "<b>" + b.abbr + "</b>";
           }
+
+          render_a = render_a + "&nbsp;" + a_desc;
+          render_b = render_b + "&nbsp;" + b_desc;
+
           sim.html += render_a + "&nbsp;vs&nbsp;" + render_b + "<br/>";
         }
 
         sim.html += "</td>";
-        teams.sort(function(a, b) { return b.won - a.won; });
+        sortTeamsByWins(teams);
 
         //if(teams[0].won != teams[1].won) {
         //  break;
@@ -2785,22 +2847,25 @@
       
       renderStandings(sim, teams);
 
-      if(full_bracket) {
-        simBracket(sim, teams, num_pitches);
-      } else {
-        if(teams[0].won != teams[1].won) {
-          sim.html += "<h4>Bracket:</h4><b>There is a clear winner, no bracket is necessary.</b>";
-        } else {
-          var bracket_teams = [];
-          for(var i=0; i<teams.length; i++) {
-            if(teams[i].won == teams[0].won) {
-              bracket_teams.push(teams[i]);
-            } else {
-              break;
-            }
-          }
-          simBracket(sim, bracket_teams, num_pitches);
+      // How big a bracket?
+      var winning_teams = 0;
+      for(var i=0; i<teams.length; i++) {
+        if(teams[i].won == teams[0].won) {
+          winning_teams++;
         }
+      }
+
+      //console.log(sim.name);
+      if(bracket_size < winning_teams) {
+        bracket_size = winning_teams;
+      }
+
+      if(bracket_size < 2) {
+        sim.html += "<h4>Bracket:</h4><b>There is a clear winner, no bracket is necessary.</b>";
+        sim.winner = teams[0];
+      } else {
+        var bracket_teams = teams.slice(0, bracket_size);
+        simBracket(sim, bracket_teams, num_pitches);
       }
 
       sim.mingames = getMinGames(teams);
@@ -2814,11 +2879,11 @@
       sim.name = "Round Robin";
 
       if(playoff_teams == 0) {
-        sim.name += " w/ no playoff";
+        sim.name += " and Tiebreakers";
       } else if(playoff_teams == 2) {
-        sim.name += " w/ 2-team playoff";
+        sim.name += " and 2-team playoff";
       } else if(playoff_teams == 4) {
-        sim.name += " w/ 4-team playoff";
+        sim.name += " and 4-team playoff";
       } else {
         return null;
       }
@@ -2834,12 +2899,27 @@
 
       // Standings
       renderStandings(sim, teams);
+
+      // How big a bracket?
+      var winning_teams = 0;
+      for(var i=0; i<teams.length; i++) {
+        if(teams[i].won == teams[0].won) {
+          winning_teams++;
+        }
+      }
+
+      if(playoff_teams < winning_teams) {
+        playoff_teams = winning_teams;
+      }
       
       // Bracket
-      if(playoff_teams > 0) {
+      if(playoff_teams > 1) {
         var bracket_teams = teams.slice(0, playoff_teams);
         //console.log("bracket_teams", bracket_teams.length, bracket_teams);
         simBracket(sim, bracket_teams, num_pitches);
+      } else if(winning_teams == 1) {
+        sim.html += "<h4>Bracket:</h4><b>There is a clear winner, no bracket is necessary.</b>";
+        sim.winner = teams[0];
       }
 
       sim.mingames = getMinGames(teams);
@@ -2854,40 +2934,69 @@
       d.innerHTML = "<h3>Tournament Simulations</h3>";
 
       for(var i=0; i<results.length; i++) {
-        var res = results[i];
+        var sim = results[i];
 
         var s = document.createElement("div");
-        var html = "<h3>Format: " + res.name + "</h3>";
-        //console.log("res", res);
-        html += res.html;
-        html += "<h3>Summary:</h3>";
-        html += "Games: " + res.games;
-        html += "<br/>Competitive games: " + res.competitive;
-        html += "<br/>Timeslots needed: " + res.slots;
-        html += "<br/>Min games for a team: " + res.mingames;
-        html += "<br/>Max games for a team: " + res.maxgames;
+        var html = "";
+        html += "<a id=\"" + sim.id + "\" name=\"" + sim.id + "\"/>";
+        html += "<h3>Format: " + sim.name + "</h3>";
+        //console.log("sim", sim);
+        html += sim.html;
+        html += "<h4>Summary:</h4>";
+        html += "<ul>";
+        html += "<li>Games: " + sim.games + "</li>";
+        html += "<li>Competitive games: " + sim.competitive + "</li>";
+        html += "<li>Timeslots needed: " + sim.slots + "</li>";
+        html += "<li>Min games for a team: " + sim.mingames + "</li>";
+        html += "<li>Max games for a team: " + sim.maxgames + "</li>";
+
+        if(sim.winner) {
+          html += "<li>Winner's path:";
+          html += "<ul>";
+          for(var j=0; j<(sim.winner.opponents.length); j++) {
+            match = sim.winner.opponents[j];
+            if(match[1] == 1) {
+              render_a = "<b>" + sim.winner.abbr + "</b>";
+              render_b = match[0].abbr;
+            } else {
+              render_a = sim.winner.abbr;
+              render_b = "<b>" + match[0].abbr + "</b>";
+            }
+            html += "<li>" + render_a + " vs " + render_b + "</li>";
+          }
+          html += "</ul></li>";
+        }
+
+        html += "</ul>";
+
         s.innerHTML = html;
         d.appendChild(s);
       }
     }
 
-    function renderSummary(formats) {
+    function renderSummary(formats, skipped) {
       var d = document.getElementById("summary");
       d.innerHTML = "<h3>Summary</h3>";
 
       var t = document.createElement("table");
       t.className = "sortable";
 
-      var head = document.createElement("thead");
-      head.innerHTML = "<th>Format</th><th>Games</th><th>Competitive games</th><th>Pct</th><th>Rematches</th><th>Timeslots</th><th>Min games</th><th>Max games</th>";
-      t.appendChild(head);
+      var thead = document.createElement("thead");
+      thead.innerHTML = "<th>Format</th><th>Games</th><th>Competitive games</th><th><u>% Competitive</u></th><th>Rematches</th><th>Timeslots</th><th>Min games</th><th>Max games</th>";
+      t.appendChild(thead);
 
+      formats.sort(function(a, b) { return b.competitive / b.games
+          - a.competitive / a.games; });
+
+      //formats.sort(function(a, b) { return a.games - b.games; });
+
+      var tbody = document.createElement("tbody");
       for(var i = 0; i < formats.length; i++) {
         res = formats[i];
 
         var row = document.createElement("tr");
         row.setAttribute("class", getStripe(i));
-        row.innerHTML = "<td>" + res.name + "</td>"
+        row.innerHTML = "<td><a href=\"#" + res.id + "\">" + res.name + "</a></td>"
           + "<td>" + res.games + "</td>"
           + "<td>" + res.competitive + "</td>"
           + "<td>" + Math.round((100.0 * res.competitive / res.games)) + "%</td>"
@@ -2895,11 +3004,22 @@
           + "<td>" + res.slots + "</td>"
           + "<td>" + res.mingames + "</td>"
           + "<td>" + res.maxgames + "</td>";
-        t.appendChild(row);
+        tbody.appendChild(row);
       }
 
+      t.appendChild(tbody);
+
+      t.id = "summaryTable";
       d.appendChild(t);
-      //sorttable.makeSortable(t);
+      sorttable.makeSortable(document.getElementById("summaryTable"));
+
+      var ul = document.createElement("ul");
+      ul.innerHTML = "";
+      for(var i=0; i < skipped.length; i++) {
+        res = skipped[i];
+        ul.innerHTML += "<li><i>" + res.error + "</i></li>";
+      }
+      d.appendChild(ul);
     }
 
     function loadFormState(formId) {
@@ -2969,12 +3089,16 @@
         
         //console.log(newQueryStr);
 
-        if(window.location.search == "") {
-          window.history.replaceState('', '', newQueryStr);
-          //console.log("replaceState", newQueryStr);
-        } else {
-          window.history.pushState('', '', newQueryStr);
-          //console.log("pushState", newQueryStr);
+        try {
+          if(window.location.search == "") {
+            window.history.replaceState('', '', newQueryStr);
+            //console.log("replaceState", newQueryStr);
+          } else {
+            window.history.pushState('', '', newQueryStr);
+            //console.log("pushState", newQueryStr);
+          }
+        } catch(e) {
+          //console.log(e);
         }
       }
     }
@@ -3025,6 +3149,7 @@
         "pitches": 4,
         "deterministic": true,
         "randomTeams": true,
+        "allFormats": false,
       };
     }
 
@@ -3046,9 +3171,17 @@
     }
 
     function popstate() {
+      // Don't fire if only the # part changes
+      if(event.state === null) {
+        event.preventDefault();
+        return false;
+      }
+
+      console.log("popstate");
       // Clear initUrlState so parameters are reloaded from the URL
       initUrlState = null;
       state = loadState();
+      validateState(state);
       recalculate();
     }
 
@@ -3056,8 +3189,29 @@
     function stateChanged() {
       var oldState = state;
       state = loadState();
+      validateState(state);
       updateUrl(oldState, state);
       recalculate();
+    }
+
+    function validateState(state) {
+      var valid = true;
+      if(state.teams < 4) {
+        state.teams = 3;
+        valid = false;
+      } else if(state.teams > teams.length) {
+        state.teams = teams.length;
+        valid = false;
+      }
+
+      if(state.pitches < 1) {
+        state.pitches = 1;
+        valid = false;
+      }
+
+      if(!valid) {
+        setFormValues("controls", state);
+      }
     }
 
     function recalculate() {
@@ -3074,12 +3228,16 @@
       renderTeams(sel_teams);
 
       var results = [];
+      var skipped = [];
       var sim = {};
       var last_num_pools = null;
+      var last_pool_size = null;
       for(pool_size=3; pool_size<=12; pool_size++) {
         var num_pools = Math.ceil(state.teams / pool_size);
 
         if(num_pools < 2) {
+          skipped.push({"error": "Can't simulate pools of " + pool_size
+              + " because there would only be 1 pool."});
           break;
         }
 
@@ -3087,35 +3245,58 @@
           sim = startSim(sel_teams.slice(0));
           //console.log("sim", sim);
           results.push(simPools(sim, sim.teams, state.pitches, pool_size));
+          last_pool_size = pool_size;
+        } else {
+          skipped.push({"error": "Skipping pools of " + pool_size + " as number of pools ("
+              + num_pools + ") would be the same as with pools of " + last_pool_size + "."});
         }
 
         last_num_pools = num_pools;
       }
 
-      for(var i=0; true; i++) {
-        if(i < Math.ceil(Math.log2(sel_teams.length)/2.0)) {
-          sim = startSim(sel_teams.slice(0));
-          results.push(simSwissMonrad(sim, sim.teams, state.pitches, false, i));
-        } else {
-          break;
-        }
-      }
+      if(state.teams % 2 == 0) {
+        for(var pairFIDE=0; pairFIDE < 2; pairFIDE++) {
+          if(state.allFormats == false && pairFIDE == 0) {
+            continue;
+          }
 
-      sim = startSim(sel_teams.slice(0));
-      results.push(simSwissMonrad(sim, sim.teams, state.pitches, true, 0));
+          var maxFewerRounds = Math.ceil(Math.log2(sel_teams.length)/2.0);
+          for(var i=0; true; i++) {
+            if(i < maxFewerRounds) {
+              //for(var bracket=0; bracket<5; bracket+=2) {
+              //  sim = startSim(sel_teams.slice(0));
+              //  results.push(simSwiss(sim, sim.teams, state.pitches, bracket, i, pairFIDE));
+              //}
+
+              sim = startSim(sel_teams.slice(0));
+              results.push(simSwiss(sim, sim.teams, state.pitches, 4, i, pairFIDE));
+
+              sim = startSim(sel_teams.slice(0));
+              results.push(simSwiss(sim, sim.teams, state.pitches, state.teams, i, pairFIDE));
+            } else {
+              break;
+            }
+          }
+        }
+      } else {
+        skipped.push({"error": "Skipping Swiss formats as there are an odd number of teams. (" + state.teams + ")"});
+      }
 
       if(state.teams <= 12) {
         for(var i=0; i<5; i+=2) {
           sim = startSim(sel_teams.slice(0));
           results.push(simRoundRobin(sim, sim.teams, state.pitches, i));
         }
+      } else {
+        skipped.push({"error": "Skipping round-robin simulations as there are more than 12 teams."});
       }
 
       renderFormats(results);
-      renderSummary(results);
+      renderSummary(results, skipped);
     }
     </script>
   </head>
+
   <body>
     <h2>Tournament Format Simulator</h2>
     <i>Teams are selected from the 163 teams who played in the 2015-2016 USQ season. Feel free to reload the page or play with the parameters.
@@ -3124,7 +3305,7 @@
       <form id="controls" action="#">
         # teams: <input type="number" name="teams" id="teams" min="3" max="160" maxlength="5" value="20" onChange="stateChanged()" /> (enter any number between 3 and 160)
         <br/>
-        # pitches: <input type="number" name="pitches" id="pitches" min="1" max="20" maxlength="5" value="4" onChange="stateChanged()" /> (enter any number between 1 and 20)
+        # pitches: <input type="number" name="pitches" id="pitches" min="1" max="40" maxlength="5" value="4" onChange="stateChanged()" /> (enter any number greater than 1)
         <br/>
         Deterministic: <select name="deterministic" id="deterministic" value="no" onChange="stateChanged()">
           <option value="yes" selected="selected">yes</option>
@@ -3134,6 +3315,11 @@
         Random teams: <select name="randomTeams" id="randomTeams" value="yes" onChange="stateChanged()">
           <option value="yes" selected="selected">Random teams</option>
           <option value="no">Top teams</option>
+        </select>
+        <br/>
+        Available formats: <select name="allFormats" id="allFormats" value="no" onChange="stateChanged()">
+          <option value="no" selected="selected">Show Most Formats</option>
+          <option value="yes">Show All Formats</option>
         </select>
         <br/>
         <input type="button" name="recalc" id="recalc" value="Do it again!" onClick="recalculate()" /> <i>(Use this to re-run with the same parameters.)</i>

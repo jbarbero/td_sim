@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Tournament Format Simulator</title>
     <!-- <link rel="stylesheet" type="text/css" href="autumn_daze.css" media="all"> -->
     <link rel="stylesheet" type="text/css" href="coffee-with-milk.css" media="all">
@@ -2365,8 +2366,38 @@
       d.appendChild(t);
     }
 
+    // Stable sort
+    function mergeSort(list, fn, s, e) {
+      if(s === undefined || e === undefined) {
+        s = 0;
+        e = list.length - 1;
+      }
+
+      if(s >= e ) {
+        return;
+      }
+
+      var m = Math.floor((s + e) / 2);
+
+      mergeSort(list, fn, s, m);
+      mergeSort(list, fn, m+1, e);
+
+      var copy = list.slice(s, s+m+2);
+      var i=0, j=m+1, k=s;
+      while(s+i <= m && j <= e) {
+        list[k++] = (fn(list[j], copy[i]) < 0) ? list[j++] : copy[i++];
+      }
+      while(s+i <= m) {
+        list[k++] = copy[i++];
+      }
+    }
+
+    function sortByField(teams, field, ascending) {
+      mergeSort(teams, function(a, b) { return (ascending ? -1 : 1) * (b[field] - a[field]); });
+    }
+
     function renderStandings(sim, teams) {
-      sortTeamsByWins(teams);
+      sortByField(teams, "won");
       sim.html += "<h4>Standings:</h4>"
       sim.html += "<table class=\"sortable\"><thead>";
       sim.html += "<th>Rank</th><th>Team</th>";
@@ -2532,13 +2563,8 @@
       return max;
     }
 
-    function sortTeamsByWins(teams) {
-      // TODO: have to make this stable!!!
-      teams.sort(function(a, b) { return b.won - a.won; });
-    }
-
     function simBracket(sim, teams, num_pitches) {
-      sortTeamsByWins(teams);
+      sortByField(teams, "won");
       var levels = Math.floor(Math.log2(teams.length));
       var playin = teams.length - Math.pow(2, levels);
       //console.log("playin", playin);
@@ -2700,7 +2726,7 @@
         sim.html += "<td style=\"vertical-align: top\">";
 
         var pool = pools[i];
-        sortTeamsByWins(pool);
+        sortByField(pool, "won");
         var pool_size = pool.length;
 
         for(var j=0; j<pool_size; j++) {
@@ -2843,7 +2869,7 @@
         }
 
         sim.html += "</td>";
-        sortTeamsByWins(teams);
+        sortByField(teams, "won");
 
         for(var j=0; j<teams.length; j++) {
           round_results[j].push([teams[j], teams[j].won, teams[j].lost]);
@@ -3206,7 +3232,7 @@
       }
     }
 
-    function popstate() {
+    function popstate(event) {
       // Don't fire if only the # part changes
       if(event.state === null) {
         event.preventDefault();
@@ -3258,7 +3284,7 @@
         var teams_copy = teams.slice(0);
         shuffleArray(teams_copy);
         sel_teams = teams_copy.slice(0, state.teams);
-        sel_teams.sort(function(a, b) { return a.rank - b.rank; });
+        sortByField(sel_teams, "rank", true);
       }
 
       renderTeams(sel_teams);
@@ -3344,9 +3370,9 @@
         # pitches: <input type="number" name="pitches" id="pitches" min="1" max="40" maxlength="5" value="4" onChange="stateChanged()" /> (enter any number greater than 1)
         <br/>
         Deterministic: <select name="deterministic" id="deterministic" value="no" onChange="stateChanged()">
-          <option value="yes" selected="selected">yes</option>
-          <option value="no">no</option>
-        </select> (set to yes to simulate upsets happening)
+          <option value="yes" selected="selected">Better team always wins</option>
+          <option value="no">Upsets happen randomly</option>
+        </select>
         <br/>
         Random teams: <select name="randomTeams" id="randomTeams" value="yes" onChange="stateChanged()">
           <option value="yes" selected="selected">Random teams</option>

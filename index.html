@@ -2766,10 +2766,8 @@
         sim.name += " and Full Bracket";
       } else if(bracket_size == 0 && hybrid == 0) {
         sim.name += " and Tiebreakers";
-      } else if(bracket_size == 2) {
-        sim.name += " and 2-team playoff";
-      } else if(bracket_size == 4) {
-        sim.name += " and 4-team playoff";
+      } else if(bracket_size > 0) {
+        sim.name += " and " + bracket_size + "-team Bracket";
       }
 
       //console.log(sim.name);
@@ -3332,6 +3330,9 @@
 
               sim = startSim(sel_teams.slice(0));
               results.push(simSwiss(sim, sim.teams, state.pitches, 4, i, pairFIDE));
+
+              sim = startSim(sel_teams.slice(0));
+              results.push(simSwiss(sim, sim.teams, state.pitches, 8, i, pairFIDE));
 
               sim = startSim(sel_teams.slice(0));
               results.push(simSwiss(sim, sim.teams, state.pitches, state.teams, i, pairFIDE));
